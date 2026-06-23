@@ -93,6 +93,7 @@
   class RobotArm {
     constructor(xRatio) {
       this.xRatio = xRatio;
+      this.scale = 1;
       this.segments = [
         new Segment(220), 
         new Segment(220), 
@@ -108,22 +109,39 @@
     }
 
     initPositions(width, height) {
-      if (!this.posA) {
-        let dir = this.xRatio < 0.5 ? 1 : -1;
-        this.base.x = width * this.xRatio;
-        this.base.y = height - 50; 
-        
-        let floorY = height - 50;
-        this.posA = { x: this.base.x + 80 * dir, y: floorY };
-        this.posB = { x: this.base.x + 300 * dir, y: floorY };
-        
-        this.box = { x: this.posA.x, y: this.posA.y, size: 40 };
+      // Calculate scale based on resolution so it's always noticeable but fits
+      this.scale = Math.min(1, Math.min(width / 1920, height / 1080));
+      
+      // Update segment lengths based on scale
+      this.segments[0].length = 220 * this.scale;
+      this.segments[1].length = 220 * this.scale;
+      this.segments[2].length = 60 * this.scale;
+      this.arcHeight = 160 * this.scale;
+      this.hoverHeight = 80 * this.scale;
+
+      let dir = this.xRatio < 0.5 ? 1 : -1;
+      // Bring them slightly closer to center on small screens so they don't hide off-screen
+      let safeRatio = this.xRatio;
+      if (width < 1400) {
+        safeRatio = this.xRatio < 0.5 ? 0.05 : 0.95;
+      }
+      
+      this.base.x = width * safeRatio;
+      // Raise the floor slightly so they aren't hidden behind the browser UI
+      this.base.y = height - (50 * this.scale) - 30; 
+      
+      let floorY = this.base.y;
+      this.posA = { x: this.base.x + (80 * this.scale) * dir, y: floorY };
+      this.posB = { x: this.base.x + (300 * this.scale) * dir, y: floorY };
+      
+      if (!this.box) {
+        this.box = { x: this.posA.x, y: this.posA.y, size: 40 * this.scale };
+      } else {
+        this.box.size = 40 * this.scale;
       }
     }
 
     update(width, height) {
-      this.base.x = width * this.xRatio;
-      this.base.y = height - 50; 
       this.initPositions(width, height);
 
       let currentStart = moveFromA ? this.posA : this.posB;
@@ -242,7 +260,7 @@
 
       ctx.fillStyle = '#222';
       ctx.beginPath();
-      ctx.arc(this.base.x, this.base.y, 60, Math.PI, 0);
+      ctx.arc(this.base.x, this.base.y, 60 * this.scale, Math.PI, 0);
       ctx.fill();
 
       for (let i = 0; i < this.segments.length; i++) {
@@ -251,7 +269,7 @@
         let endY = seg.y + Math.sin(seg.angle) * seg.length;
 
         ctx.strokeStyle = '#cccccc';
-        ctx.lineWidth = Math.max(12, 45 - (i * 12));
+        ctx.lineWidth = Math.max(12 * this.scale, (45 - (i * 12)) * this.scale);
         ctx.lineCap = 'round';
         ctx.beginPath();
         ctx.moveTo(seg.x, seg.y);
@@ -261,7 +279,7 @@
         if (i < this.segments.length - 1) {
           ctx.fillStyle = '#3776AB'; 
           ctx.beginPath();
-          ctx.arc(seg.x, seg.y, ctx.lineWidth / 1.5 + 4, 0, Math.PI * 2);
+          ctx.arc(seg.x, seg.y, ctx.lineWidth / 1.5 + (4 * this.scale), 0, Math.PI * 2);
           ctx.fill();
           
           ctx.fillStyle = '#222';
@@ -276,24 +294,19 @@
       let endY = last.y + Math.sin(last.angle) * last.length;
 
       ctx.strokeStyle = '#ff8c00'; 
-      ctx.lineWidth = 6;
+      ctx.lineWidth = 6 * this.scale;
       ctx.lineCap = 'square';
       
-      ctx.beginPath();
-      ctx.moveTo(endX - 22, endY);
-      ctx.lineTo(endX + 22, endY);
-      ctx.stroke();
-
-      let fingerOffset = globalHasBox ? (this.box.size / 2 + 2) : 22;
+      let fingerOffset = globalHasBox ? (this.box.size / 2 + 2 * this.scale) : (22 * this.scale);
 
       ctx.beginPath();
       ctx.moveTo(endX - fingerOffset, endY);
-      ctx.lineTo(endX - fingerOffset, endY + 25);
+      ctx.lineTo(endX - fingerOffset, endY + 25 * this.scale);
       ctx.stroke();
 
       ctx.beginPath();
       ctx.moveTo(endX + fingerOffset, endY);
-      ctx.lineTo(endX + fingerOffset, endY + 25);
+      ctx.lineTo(endX + fingerOffset, endY + 25 * this.scale);
       ctx.stroke();
     }
   }
@@ -306,7 +319,6 @@
       this.rotorAngle = 0;
       this.minXFunc = minXFunc;
       this.maxXFunc = maxXFunc;
-      this.side = 0; 
       this.direction = direction; // 1 for Clockwise, -1 for Counterclockwise
       this.speed = 1.2;
     }
@@ -372,54 +384,58 @@
     }
 
     draw() {
+      let scale = Math.min(1, Math.min(width / 1920, height / 1080));
+      // Drones shouldn't shrink as aggressively as arms, keep them at least 0.5
+      scale = Math.max(0.5, scale);
+
       ctx.save();
       ctx.translate(this.x, this.y);
       ctx.rotate(this.angle);
 
       ctx.strokeStyle = '#ffffff';
-      ctx.lineWidth = 5;
+      ctx.lineWidth = 5 * scale;
       ctx.lineCap = 'round';
       ctx.beginPath();
-      ctx.moveTo(-25, -25);
-      ctx.lineTo(25, 25);
-      ctx.moveTo(25, -25);
-      ctx.lineTo(-25, 25);
+      ctx.moveTo(-25 * scale, -25 * scale);
+      ctx.lineTo(25 * scale, 25 * scale);
+      ctx.moveTo(25 * scale, -25 * scale);
+      ctx.lineTo(-25 * scale, 25 * scale);
       ctx.stroke();
 
       ctx.fillStyle = 'rgba(255, 255, 255, 0.7)';
       ctx.strokeStyle = '#ffffff';
-      ctx.lineWidth = 2;
+      ctx.lineWidth = 2 * scale;
       const drawRotor = (rx, ry) => {
         ctx.save();
         ctx.translate(rx, ry);
         ctx.rotate(this.rotorAngle);
         ctx.beginPath();
-        ctx.ellipse(0, 0, 18, 5, 0, 0, Math.PI * 2);
+        ctx.ellipse(0, 0, 18 * scale, 5 * scale, 0, 0, Math.PI * 2);
         ctx.fill();
         ctx.stroke();
         ctx.fillStyle = '#888';
         ctx.beginPath();
-        ctx.arc(0, 0, 4, 0, Math.PI*2);
+        ctx.arc(0, 0, 4 * scale, 0, Math.PI*2);
         ctx.fill();
         ctx.restore();
       };
 
-      drawRotor(-25, -25);
-      drawRotor(25, -25);
-      drawRotor(25, 25);
-      drawRotor(-25, 25);
+      drawRotor(-25 * scale, -25 * scale);
+      drawRotor(25 * scale, -25 * scale);
+      drawRotor(25 * scale, 25 * scale);
+      drawRotor(-25 * scale, 25 * scale);
 
       ctx.fillStyle = '#e0e0e0';
       ctx.beginPath();
-      ctx.arc(0, 0, 15, 0, Math.PI * 2);
+      ctx.arc(0, 0, 15 * scale, 0, Math.PI * 2);
       ctx.fill();
       ctx.strokeStyle = '#ffffff';
-      ctx.lineWidth = 2;
+      ctx.lineWidth = 2 * scale;
       ctx.stroke();
       
       ctx.fillStyle = (Math.floor(Date.now() / 500) % 2 === 0) ? '#00ff44' : '#145c32';
       ctx.beginPath();
-      ctx.arc(0, 5, 4, 0, Math.PI*2);
+      ctx.arc(0, 5 * scale, 4 * scale, 0, Math.PI*2);
       ctx.fill();
 
       ctx.restore();
@@ -440,7 +456,8 @@
   function loop() {
     ctx.clearRect(0, 0, width, height);
     
-    ctx.globalAlpha = 0.85; 
+    // Fade out heavily on smartphones to not obscure text
+    ctx.globalAlpha = width < 768 ? 0.15 : 0.85; 
 
     updateGlobalCycle();
     
