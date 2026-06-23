@@ -31,6 +31,10 @@ p {
   margin: 0 0 1.45rem;
   padding: 0;
   text-align: justify;
+
+  @media (max-width: 600px) {
+    text-align: left;
+  }
 }
 
 a {

@@ -30,13 +30,6 @@
   function resize() {
     width = canvas.width = canvas.clientWidth;
     height = canvas.height = canvas.clientHeight;
-
-    // Hide completely on mobile as requested
-    if (window.innerWidth < 768) {
-      canvas.style.display = 'none';
-    } else {
-      canvas.style.display = 'block';
-    }
   }
   window.addEventListener('resize', resize);
   resize();
@@ -63,8 +56,12 @@
       return;
     }
 
-    const speedPlace = 0.00525; // Increased by 50%
-    const speedVertical = 0.0225; // Increased by 50%
+    // Same time-step drives both, but the larger desktop arm covers more
+    // screen distance per step than the smaller mobile one, so it reads as
+    // faster at the same speed value — slow it down on wide (desktop) screens.
+    const speedScale = width < 1400 ? 1 : 0.55;
+    const speedPlace = 0.00525 * speedScale; // Increased by 50%
+    const speedVertical = 0.0225 * speedScale; // Increased by 50%
 
     switch(globalState) {
       case 'MOVE_TO_PICK':
@@ -138,7 +135,8 @@
 
     initPositions(width, height) {
       // Calculate scale based on resolution so it's always noticeable but fits
-      this.scale = Math.min(1, Math.min(width / 1920, height / 1080));
+      // Clamped with a floor so it stays visible (not vanishingly small) on narrow phones
+      this.scale = Math.max(0.3, Math.min(1, Math.min(width / 1920, height / 1080)));
       
       // Update segment lengths based on scale
       this.segments[0].length = 220 * this.scale;
@@ -148,22 +146,38 @@
       this.hoverHeight = 80 * this.scale;
 
       let dir = this.xRatio < 0.5 ? 1 : -1;
-      // Bring them slightly closer to center on small screens so they don't hide off-screen
+      this.dir = dir;
+      // Bring them slightly closer to center on small screens so they don't hide off-screen.
+      // The base draws a semicircle of radius 60*scale, so keep that fully on-screen too.
       let safeRatio = this.xRatio;
       if (width < 1400) {
-        safeRatio = this.xRatio < 0.5 ? 0.05 : 0.95;
+        let margin = 220 * this.scale + 15;
+        let marginRatio = Math.min(0.45, margin / width);
+        safeRatio = this.xRatio < 0.5 ? marginRatio : 1 - marginRatio;
+      } else {
+        // On wide desktop screens push them further out toward the edges
+        // instead of sitting near the middle of the available space, but
+        // keep enough margin that the return-arc swing doesn't clip the border.
+        let margin = 220 * this.scale + 15;
+        let marginRatio = Math.max(0.06, margin / width * 0.85);
+        safeRatio = this.xRatio < 0.5 ? marginRatio : 1 - marginRatio;
       }
-      
+
       this.base.x = width * safeRatio;
       // Raise the floor slightly so they aren't hidden behind the browser UI
       this.base.y = height - (50 * this.scale) - 30; 
       
       let floorY = this.base.y;
+      this.tableHeight = 26 * this.scale;
+      let tableTopY = floorY - this.tableHeight;
+      // posA sits on the floor (pickup point); posB sits on a small table (place point),
+      // so the loop reads as: pick up from the floor, place on the table, pick back up, repeat.
       this.posA = { x: this.base.x + (80 * this.scale) * dir, y: floorY };
-      this.posB = { x: this.base.x + (300 * this.scale) * dir, y: floorY };
+      this.posB = { x: this.base.x + (300 * this.scale) * dir, y: tableTopY };
       
       if (!this.box) {
-        this.box = { x: this.posA.x, y: this.posA.y, size: 40 * this.scale };
+        let boxSize = 40 * this.scale;
+        this.box = { x: this.posA.x, y: this.posA.y - boxSize / 2, size: boxSize };
       } else {
         this.box.size = 40 * this.scale;
       }
@@ -178,35 +192,37 @@
       if (globalState === 'MOVE_TO_PICK') {
         let ease = globalT < 0.5 ? 2 * globalT * globalT : 1 - Math.pow(-2 * globalT + 2, 2) / 2;
         this.target.x = currentStart.x;
-        this.target.y = currentStart.y - this.hoverHeight * (1 - ease) - this.box.size / 2;
-      } 
+        this.target.y = currentStart.y - this.hoverHeight * (1 - ease) - this.box.size;
+      }
       else if (globalState === 'GRAB') {
         this.target.x = currentStart.x;
-        this.target.y = currentStart.y - this.box.size / 2;
-      } 
+        this.target.y = currentStart.y - this.box.size;
+      }
       else if (globalState === 'MOVE_TO_PLACE') {
         let ease = globalT < 0.5 ? 4 * globalT * globalT * globalT : 1 - Math.pow(-2 * globalT + 2, 3) / 2;
         let targetX = currentStart.x + (currentEnd.x - currentStart.x) * ease;
         let targetY = currentStart.y + (currentEnd.y - currentStart.y) * ease;
         targetY -= Math.sin(ease * Math.PI) * this.arcHeight;
-        
+
         this.target.x = targetX;
-        this.target.y = targetY - this.box.size / 2;
-      } 
+        this.target.y = targetY - this.box.size;
+      }
       else if (globalState === 'DROP') {
         this.target.x = currentEnd.x;
-        this.target.y = currentEnd.y - this.box.size / 2;
-      } 
+        this.target.y = currentEnd.y - this.box.size;
+      }
       else if (globalState === 'LIFT_UP') {
         let ease = globalT < 0.5 ? 2 * globalT * globalT : 1 - Math.pow(-2 * globalT + 2, 2) / 2;
         this.target.x = currentEnd.x;
-        this.target.y = currentEnd.y - this.hoverHeight * ease - this.box.size / 2;
-      } 
+        this.target.y = currentEnd.y - this.hoverHeight * ease - this.box.size;
+      }
       else if (globalState === 'WAIT') {
         this.target.x = currentEnd.x;
-        this.target.y = currentEnd.y - this.hoverHeight - this.box.size / 2;
+        this.target.y = currentEnd.y - this.hoverHeight - this.box.size;
       }
 
+      // target tracks the gripper tip, which grips the box at its top edge,
+      // so the box center sits half a box-height below the tip.
       if (globalHasBox) {
         this.box.x = this.target.x;
         this.box.y = this.target.y + this.box.size / 2;
@@ -249,7 +265,7 @@
       
       let dirSign = dx < 0 ? -1 : 1;
       let theta1 = angleBaseToTarget - (dirSign * alpha);
-      
+
       let jointX = this.base.x + Math.cos(theta1) * L1;
       let jointY = this.base.y + Math.sin(theta1) * L1;
       
@@ -267,7 +283,23 @@
       this.segments[2].y = ikTargetY;
     }
 
+    drawTable(x, topY) {
+      let halfW = 26 * this.scale;
+      let legW = 4 * this.scale;
+      let topThickness = 5 * this.scale;
+      let floorY = this.base.y;
+
+      ctx.fillStyle = '#5a5a5a';
+      ctx.fillRect(x - halfW + legW, topY + topThickness, legW, floorY - topY - topThickness);
+      ctx.fillRect(x + halfW - legW * 2, topY + topThickness, legW, floorY - topY - topThickness);
+
+      ctx.fillStyle = '#8a6240';
+      ctx.fillRect(x - halfW, topY, halfW * 2, topThickness);
+    }
+
     draw() {
+      this.drawTable(this.posB.x, this.posB.y);
+
       if (this.box) {
         ctx.fillStyle = '#e67e22'; 
         ctx.strokeStyle = '#d35400';
@@ -321,11 +353,16 @@
       let endX = last.x + Math.cos(last.angle) * last.length;
       let endY = last.y + Math.sin(last.angle) * last.length;
 
-      ctx.strokeStyle = '#ff8c00'; 
+      ctx.strokeStyle = '#ff8c00';
       ctx.lineWidth = 6 * this.scale;
       ctx.lineCap = 'square';
-      
+
       let fingerOffset = globalHasBox ? (this.box.size / 2 + 2 * this.scale) : (22 * this.scale);
+
+      ctx.beginPath();
+      ctx.moveTo(endX - fingerOffset, endY);
+      ctx.lineTo(endX + fingerOffset, endY);
+      ctx.stroke();
 
       ctx.beginPath();
       ctx.moveTo(endX - fingerOffset, endY);
@@ -354,7 +391,7 @@
     update(width, height) {
       this.rotorAngle += 0.4;
 
-      let margin = 45;
+      let margin = Math.min(45, Math.max(12, width * 0.05));
       let minY = 100;
       let maxY = height * 0.35 - margin;
       let minX = this.minXFunc(width) + margin;
@@ -413,8 +450,9 @@
 
     draw() {
       let scale = Math.min(1, Math.min(width / 1920, height / 1080));
-      // Drones shouldn't shrink as aggressively as arms, keep them at least 0.5
-      scale = Math.max(0.5, scale);
+      // Drones shouldn't shrink as aggressively as arms, but on narrow phones a smaller
+      // floor keeps them from outgrowing their (necessarily tighter) patrol box
+      scale = Math.max(width < 500 ? 0.32 : 0.5, scale);
 
       ctx.save();
       ctx.translate(this.x, this.y);
@@ -485,7 +523,7 @@
     ctx.clearRect(0, 0, width, height);
     
     // Fade out heavily on smartphones to not obscure text
-    ctx.globalAlpha = width < 768 ? 0.25 : 0.85;
+    ctx.globalAlpha = width < 768 ? 0.5 : 0.85;
 
     updateGlobalCycle();
     

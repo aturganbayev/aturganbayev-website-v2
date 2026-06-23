@@ -3,7 +3,7 @@ title = "TurtleBot3 Obstacle Avoidance & ArUco Marker Navigation"
 [extra]
 github = "https://github.com/aturganbayev/CSCI5551-EE5271_Turtlebot_Navigation"
 report = "/files/CSCI5551_Final_Project.pdf"
-icon = "/assets/icons/turtle.svg"
+icon = "/assets/icons/robot-vacuum.svg"
 background = "#273377"
 color = "#fff"
 +++

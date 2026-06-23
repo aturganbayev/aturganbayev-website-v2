@@ -95,6 +95,12 @@ $two-columns-breakpoint: 1170px;
         width: 44%;
       }
 
+      // Justified text needs enough words per line to look even; this column
+      // is too narrow for that and ends up with uneven gaps, so keep it left-aligned
+      p {
+        text-align: left;
+      }
+
       h4 {
         font-size: 1.5rem;
         font-weight: 400;

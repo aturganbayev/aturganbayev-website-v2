@@ -27,9 +27,9 @@
 
   /* TODO container styles */
   .profile-picture {
-    width: 100px;
-    height: 100px;
-    border-radius: 100px;
+    width: 130px;
+    height: 130px;
+    border-radius: 130px;
     box-shadow: 0 2px 18px rgba(0, 0, 0, 0.6);
   }
 
@@ -118,6 +118,12 @@
     padding: 16px;
 
     flex-grow: 1;
+
+    // Justified text needs enough words per line to look even; this column
+    // is too narrow for that and ends up with uneven gaps, so keep it left-aligned
+    p {
+      text-align: left;
+    }
   }
 
   .card-actions {
@@ -187,6 +193,10 @@
     border-bottom: 1px solid rgba(0, 0, 0, 0.1);
     line-height: 1.5;
     text-align: justify;
+
+    @media (max-width: 600px) {
+      text-align: left;
+    }
 
     &:last-child {
       border-bottom: none;

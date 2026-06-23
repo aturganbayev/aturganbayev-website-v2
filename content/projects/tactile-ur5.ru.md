@@ -2,7 +2,7 @@
 title = "Тактильное исследование поверхности с помощью UR5"
 [extra]
 github = "https://github.com/aturganbayev/tactile_UR5"
-icon = "/assets/icons/robot-industrial.svg"
+icon = "/assets/icons/robot-arm.svg"
 background = "#3776AB"
 color = "#fff"
 +++

@@ -13,7 +13,7 @@ about_me = """
 
 [[extra.top_projects]]
 name = "Тактильное исследование поверхности с UR5"
-icon = "/assets/icons/robot-industrial.svg"
+icon = "/assets/icons/robot-arm.svg"
 link = "projects/tactile-ur5"
 calltoaction = "Читать далее"
 background = "#3776AB"
@@ -35,7 +35,7 @@ description = """
 
 [[extra.top_projects]]
 name = "TurtleBot3: Избегание препятствий"
-icon = "/assets/icons/turtle.svg"
+icon = "/assets/icons/robot-vacuum.svg"
 link = "projects/turtlebot3"
 calltoaction = "Читать далее"
 background = "#273377"
@@ -75,8 +75,8 @@ title = "Подготовительная программа (Foundation Year)"
 subtitle = "Назарбаев Университет"
 subtitle_link = "https://cps.nu.edu.kz/foundation"
 date = "Август 2018 - Май 2019"
-icon = "/assets/images/nu.png"
-background = "#0b2545"
+icon = "/assets/images/cps.png"
+background = "#ea6868"
 foreground = "#fff"
 content = """
 Именно здесь началось моё путешествие в робототехнику. Именно в этом году я выбрал робототехнику своей специальностью, что определило весь дальнейший путь.
@@ -86,9 +86,9 @@ content = """
 title = "Бакалавриат по Робототехнике и Мехатронике"
 subtitle = "Назарбаев Университет"
 subtitle_link = "https://seds.nu.edu.kz/ru/bachelor_in_re"
-date = "Май 2019 - Июнь 2023"
-icon = "/assets/images/nu.png"
-background = "#0b2545"
+date = "Август 2019 - Июнь 2023"
+icon = "/assets/images/seds.png"
+background = "#eb7627"
 foreground = "#fff"
 content = """
 Дипломный проект: Реабилитационный экзоскелет плечевого сустава. Курсы: Электромеханические системы, Конструирование с применением САПР, Обработка изображений, Линейная теория управления, Микроконтроллеры, Робототехника: кинематика и динамика. Полная стипендия.
@@ -107,27 +107,27 @@ content = """
 """
 
 [[extra.timeline]]
-title = "Лаборант по робототехнике"
-subtitle = "Назарбаев Университет"
-subtitle_link = "https://seds.nu.edu.kz/ru/sedslaboratories"
-date = "Ноябрь 2023 - Июль 2025"
-icon = "/assets/images/nu.png"
-background = "#0b2545"
-foreground = "#fff"
-content = """
-Управлял работой лаборатории и технической координацией, подготавливая оборудование для исследований и занятий по робототехнике.
-"""
-
-[[extra.timeline]]
 title = "Старший помощник исследователя"
 subtitle = "CEMRR"
 subtitle_link = "https://cemrr.nu.edu.kz/ru"
 date = "Ноябрь 2023 - Апрель 2025"
 icon = "/assets/images/cemrr.png"
-background = "#3d4f8c"
+background = "#dde6f7"
 foreground = "#fff"
 content = """
 Проводил передовые исследования в области роботизированной реабилитации, руководил разработкой гибридного роботизированного плечевого экзоскелета.
+"""
+
+[[extra.timeline]]
+title = "Лаборант по робототехнике"
+subtitle = "Назарбаев Университет"
+subtitle_link = "https://seds.nu.edu.kz/ru/sedslaboratories"
+date = "Ноябрь 2023 - Июль 2025"
+icon = "/assets/images/seds.png"
+background = "#eb7627"
+foreground = "#fff"
+content = """
+Управлял работой лаборатории и технической координацией, подготавливая оборудование для исследований и занятий по робототехнике.
 """
 
 [[extra.timeline]]
@@ -148,8 +148,8 @@ title = "Помощник исследователя"
 subtitle = "Лаборатория тактильной робототехники"
 subtitle_link = "https://tact.nu.edu.kz/"
 date = "Май 2026 - Настоящее время"
-icon = "/assets/images/tactile.jpg"
-background = "#a8651a"
+icon = "/assets/images/tactile.png"
+background = "#f0f0f0"
 foreground = "#fff"
 content = """
 Разработал систему автоматизированного тактильного исследования для манипулятора UR5.
