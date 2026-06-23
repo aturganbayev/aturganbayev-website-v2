@@ -20,7 +20,7 @@
       {%- if page.extra.icon is matching("\.svg$") %}
         {{ load_data(path=page.extra.icon) | safe }}
       {%- else %}
-        <img src="{{ page.extra.icon }}" alt="{{ page.title }}" />
+        <img src="{{ get_url(path=page.extra.icon) }}" alt="{{ page.title }}" />
       {%- endif %}
     </span>
     {% endif %}

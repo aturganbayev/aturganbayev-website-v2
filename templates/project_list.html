@@ -22,7 +22,7 @@
               {%- if p.extra.icon is matching("\.svg$") %}
               {{ load_data(path=p.extra.icon) | safe }}
               {%- else %}
-              <img src="{{ p.extra.icon }}" alt="{{ p.title }}" />
+              <img src="{{ get_url(path=p.extra.icon) }}" alt="{{ p.title }}" />
               {%- endif %}
             </span>
             {% endif %}

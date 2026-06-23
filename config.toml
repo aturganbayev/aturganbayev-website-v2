@@ -17,11 +17,6 @@ build_search_index = true
 # The default author for pages
 author = "Azamat Turganbayev"
 
-# The taxonomies to be rendered for the site and their configuration of the default languages
-taxonomies = [
-  {name = "tags", feed = true, paginate_by = 10},
-]
-
 # The filenames to use for the feeds. Used as the template filenames, too.
 feed_filenames = [
   "atom.xml",

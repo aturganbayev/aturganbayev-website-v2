@@ -62,7 +62,7 @@
       {{ link_name }}
     </a>
     {%- endfor %}
-    <a class="button--big" href="{% if lang == 'ru' %}{{ config.extra.cv_ru }}{% else %}{{ config.extra.cv_en }}{% endif %}" target="_blank" rel="noopener">
+    <a class="button--big" href="{% if lang == 'ru' %}{{ get_url(path=config.extra.cv_ru) }}{% else %}{{ get_url(path=config.extra.cv_en) }}{% endif %}" target="_blank" rel="noopener">
       {% if lang == "ru" %}Резюме{% else %}CV{% endif %}
     </a>
     <div class="lang-switcher" style="font-weight: bold;">
@@ -93,7 +93,7 @@
       {{ link_name }}
     </a>
     {%- endfor %}
-    <a class="button--big" href="{% if lang == 'ru' %}{{ config.extra.cv_ru }}{% else %}{{ config.extra.cv_en }}{% endif %}" target="_blank" rel="noopener">
+    <a class="button--big" href="{% if lang == 'ru' %}{{ get_url(path=config.extra.cv_ru) }}{% else %}{{ get_url(path=config.extra.cv_en) }}{% endif %}" target="_blank" rel="noopener">
       {% if lang == "ru" %}Резюме{% else %}CV{% endif %}
     </a>
     <div class="lang-switcher" style="margin-top: 1rem; font-weight: bold; text-align: center;">

@@ -66,7 +66,7 @@
             {%- endif %}
             <li><a href="{{ href }}">{{ link_name }}</a></li>
             {%- endfor %}
-            <li><a href="{% if lang == 'ru' %}{{ config.extra.cv_ru }}{% else %}{{ config.extra.cv_en }}{% endif %}" target="_blank" rel="noopener">{% if lang == "ru" %}Резюме{% else %}CV{% endif %}</a></li>
+            <li><a href="{% if lang == 'ru' %}{{ get_url(path=config.extra.cv_ru) }}{% else %}{{ get_url(path=config.extra.cv_en) }}{% endif %}" target="_blank" rel="noopener">{% if lang == "ru" %}Резюме{% else %}CV{% endif %}</a></li>
           </ul>
         </div>
       </div>
