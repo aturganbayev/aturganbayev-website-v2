@@ -1,0 +1,33 @@
+{{ define "main" }}
+
+<div class="splash">
+  {{ with .Params.profile_picture }}
+  <img class="profile-picture" src="{{ . | absURL }}" alt="{{ $.Params.name }}">
+  {{ end }}
+  <h1>{{ .Params.name }}</h1>
+  <h2>{{ .Params.subtitle }}</h2>
+  <div class="socials">
+    {{ range .Params.socials }}
+    <div class="has-tooltip">
+      <a href="{{ .link }}" target="_blank" rel="noopener" aria-label="{{ .label }}">
+        {{ partial "icon.html" .icon }}
+      </a>
+      <span class="tooltip">{{ .label }}</span>
+    </div>
+    {{ end }}
+  </div>
+</div>
+
+<div id="about" class="section-anchor"></div>
+{{ partial "section-about.html" . }}
+
+<div id="experience" class="section-anchor"></div>
+{{ partial "section-experience.html" . }}
+
+<div id="publications" class="section-anchor"></div>
+{{ partial "section-publications.html" . }}
+
+<div id="talks" class="section-anchor"></div>
+{{ partial "section-talks.html" . }}
+
+{{ end }}

@@ -1,0 +1,32 @@
+<footer>
+  <div class="container footer-sections">
+    <div class="footer-section">
+      <h2>{{ T "footer_contact" }}</h2>
+      <ul>
+        {{ range .Params.socials }}
+        <li>
+          <span class="social-label">{{ .label }}: </span>
+          <a href="{{ .link }}" target="_blank" rel="me noopener">{{ .display | default .link }}</a>
+        </li>
+        {{ end }}
+      </ul>
+    </div>
+    <div class="footer-section">
+      <h2>{{ T "footer_sitemap" }}</h2>
+      <ul>
+        <li><a href="#about">{{ T "nav_about" }}</a></li>
+        <li><a href="#experience">{{ T "nav_experience" }}</a></li>
+        <li><a href="#publications">{{ T "nav_publications" }}</a></li>
+        <li><a href="#talks">{{ T "nav_talks" }}</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="copyright">
+    <div class="container">
+      <p class="copyright-text">{{ T "footer_copyright" }}</p>
+      {{ with .Site.Params.githubRepo }}
+      <p><a href="https://github.com/{{ . }}" target="_blank" rel="noopener">{{ T "footer_source" }}</a></p>
+      {{ end }}
+    </div>
+  </div>
+</footer>

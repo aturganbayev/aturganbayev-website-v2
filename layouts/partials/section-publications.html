@@ -1,0 +1,22 @@
+<div class="section-title">
+  <h2>{{ T "nav_publications" }}</h2>
+</div>
+<div class="section">
+  <div class="container">
+    <div class="timeline">
+      {{ range .Params.publications }}
+      {{ $pub := . }}
+      <div class="timeline-element">
+        <div class="timeline-element-icon">{{ partial "icon.html" "book" }}</div>
+        <div class="timeline-element-content">
+          <h4>{{ $pub.title }}</h4>
+          <h5>{{ $pub.venue }}</h5>
+          <p>{{ $pub.authors | markdownify }}</p>
+          <p class="meta">doi: <a href="{{ $pub.doi_link }}" target="_blank" rel="noopener">{{ $pub.doi_label }}</a></p>
+        </div>
+        <span class="timeline-element-date">{{ $pub.date }}</span>
+      </div>
+      {{ end }}
+    </div>
+  </div>
+</div>

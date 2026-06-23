@@ -1,0 +1,11 @@
+<div class="section" id="about-me">
+  <div class="container prose">
+    {{ .Content }}
+    {{ range .Params.skills }}
+    <div class="skill-group">
+      <strong>{{ .group }}</strong>
+      {{ range .tags }}<span class="skill-tag">{{ . }}</span>{{ end }}
+    </div>
+    {{ end }}
+  </div>
+</div>
