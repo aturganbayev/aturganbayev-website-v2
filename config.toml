@@ -48,11 +48,12 @@ theme = "github-dark"
 [extra]
 long_title = "Azamat Turganbayev"
 favicon = "/images/profile-sm.jpg"
+default_thumbnail = "/images/profile-sm.jpg"
 cv_en = "/files/ATurganbayev_CV.pdf"
 cv_ru = "/files/ATurganbayev_CV_ru.pdf"
 
 [extra.footer]
-source_code = "https://github.com/aturganbayev/aturganbayev-website-v2"
+source_code = "https://github.com/aturganbayev/aturganbayev.github.io"
 
 [[extra.socials]]
 name = "github"

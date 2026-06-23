@@ -9,6 +9,32 @@
 
 <meta name="referrer" content="no-referrer-when-downgrade">
 
+{%- set_global hreflang_en = "" %}
+{%- set_global hreflang_ru = "" %}
+{%- if lang == "en" %}
+  {%- set_global hreflang_en = current_url | default(value=get_url(path="/", lang="en")) %}
+{%- else %}
+  {%- set_global hreflang_ru = current_url | default(value=get_url(path="/", lang="ru")) %}
+{%- endif %}
+{%- if page is defined %}
+  {%- for t in page.translations %}
+    {%- if t.lang == "en" %}{% set_global hreflang_en = t.permalink %}{% endif %}
+    {%- if t.lang == "ru" %}{% set_global hreflang_ru = t.permalink %}{% endif %}
+  {%- endfor %}
+{%- elif section is defined %}
+  {%- for t in section.translations %}
+    {%- if t.lang == "en" %}{% set_global hreflang_en = t.permalink %}{% endif %}
+    {%- if t.lang == "ru" %}{% set_global hreflang_ru = t.permalink %}{% endif %}
+  {%- endfor %}
+{%- endif %}
+{%- if hreflang_en %}
+<link rel="alternate" hreflang="en" href="{{ hreflang_en | safe }}" />
+<link rel="alternate" hreflang="x-default" href="{{ hreflang_en | safe }}" />
+{%- endif %}
+{%- if hreflang_ru %}
+<link rel="alternate" hreflang="ru" href="{{ hreflang_ru | safe }}" />
+{%- endif %}
+
 {%- if config.generate_feeds -%}
   {%- for feed in config.feed_filenames -%}
     {%- if feed is containing('atom') -%}

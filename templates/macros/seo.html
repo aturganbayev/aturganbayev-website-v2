@@ -1,4 +1,4 @@
-{%- macro seo( config, title="", description="", authors=false, is_404=false ) %}
+{%- macro seo( config, title="", description="", authors=false, is_404=false, person=false ) %}
 
 {%- if is_404 -%}
   <meta name="robots" content="noindex, follow" />
@@ -9,7 +9,7 @@
 {%- endif -%}
 
 {% set profile_picture = resize_image(path=config.extra.favicon, width=32, height=32, op="fill", format="png") %}
-  <link rel="icon" href="{{ profile_picture.url }}" type="image/png">
+  <link rel="icon" href="{{ profile_picture.url | safe }}" type="image/png">
 
 {%- if current_url %}
   {%- set page_url = current_url %}
@@ -66,18 +66,24 @@
 {#- SEO MEDIA START #}
 {%- if page.extra.thumbnail %}
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:image" content="{{ get_url(path=page.path ~ page.extra.thumbnail, trailing_slash=false) }}" />
-  <meta property="og:image" content="{{ get_url(path=page.path ~ page.extra.thumbnail, trailing_slash=false) }}" />
+  <meta name="twitter:image" content="{{ get_url(path=page.path ~ page.extra.thumbnail, trailing_slash=false) | safe }}" />
+  <meta property="og:image" content="{{ get_url(path=page.path ~ page.extra.thumbnail, trailing_slash=false) | safe }}" />
 
 {%- elif page.extra.static_thumbnail %}
   <meta name="twitter:card" content="summary_large_image" />
   {%- if page.extra.static_thumbnail is matching("^http[s]?://") %}
-  <meta name="twitter:image" content="{{ page.extra.static_thumbnail }}" />
-  <meta property="og:image" content="{{ page.extra.static_thumbnail }}" />
+  <meta name="twitter:image" content="{{ page.extra.static_thumbnail | safe }}" />
+  <meta property="og:image" content="{{ page.extra.static_thumbnail | safe }}" />
   {%- else %}
-  <meta name="twitter:image" content="{{ get_url(path=page.extra.static_thumbnail, trailing_slash=false) }}" />
-  <meta property="og:image" content="{{ get_url(path=page.extra.static_thumbnail, trailing_slash=false) }}" />
+  <meta name="twitter:image" content="{{ get_url(path=page.extra.static_thumbnail, trailing_slash=false) | safe }}" />
+  <meta property="og:image" content="{{ get_url(path=page.extra.static_thumbnail, trailing_slash=false) | safe }}" />
   {%- endif %}
+
+{%- elif config.extra.default_thumbnail %}
+  {%- set default_thumb = resize_image(path=config.extra.default_thumbnail, width=630, height=630, op="fill", format="webp") %}
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="{{ default_thumb.url | safe }}" />
+  <meta property="og:image" content="{{ default_thumb.url | safe }}" />
 
 {%- else %}
   <meta name="twitter:card" content="summary" />
@@ -95,5 +101,23 @@
 {%- endif %}
 
 {%- endif %}
+
+{%- if person %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": "{{ config.author }}",
+  "jobTitle": "{{ config.description }}",
+  "url": "{{ page_url | safe }}",
+  "sameAs": [
+    {%- for social in config.extra.socials %}
+    {%- if social.link is starting_with("http") %}"{{ social.link | safe }}"{% if not loop.last %},{% endif %}{% endif %}
+    {%- endfor %}
+  ]
+}
+</script>
+{%- endif %}
+
 {#- Extra SEO END #}
 {%- endmacro %}

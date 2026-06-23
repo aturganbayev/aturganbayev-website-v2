@@ -3,7 +3,7 @@
 
 {%- block head %}
 {{ super() }}
-{{- macros_seo::seo(config=config, title="Home") }}
+{{- macros_seo::seo(config=config, title="Home", person=true) }}
 {%- endblock head %}
 
 {%- block stylesheets %}
@@ -25,7 +25,7 @@
   <div class="socials">
     {% for social in config.extra.socials %}
     <div class="has-tooltip">
-      <a href="{{ social.link | default(value='') }}" target="_blank" rel="noopener" data-umami-event="{{ social.name }}-social-hero">
+      <a href="{{ social.link | default(value='') }}" target="_blank" rel="noopener">
         {{ load_data(path=social.icon) | safe }}
       </a>
       <span class="tooltip" tip-position="bottom">{{ social.label }}</span>
@@ -87,7 +87,8 @@
             {% if entry.icon is matching("\.svg$") %}
               {{ load_data(path=entry.icon) | safe }}
             {% else %}
-              <img src="{{ get_url(path=entry.icon) }}" alt="{{ entry.title }}" style="width: 100%; height: 100%; border-radius: 50%; object-fit: contain; padding: {{ entry.icon_padding | default(value=9) }}px; box-sizing: border-box;" />
+              {% set timeline_icon = resize_image(path=entry.icon, width=120, height=120, op="fit", format="webp") %}
+              <img src="{{ timeline_icon.url }}" alt="{{ entry.title }}" style="width: 100%; height: 100%; border-radius: 50%; object-fit: contain; padding: {{ entry.icon_padding | default(value=9) }}px; box-sizing: border-box;" />
             {% endif %}
           </span>
           <div class="timeline-element-content">
