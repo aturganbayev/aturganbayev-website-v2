@@ -1,16 +1,42 @@
 {% extends "base.html" %}
 
+{% block stylesheets %}
+{{ super() }}
+<link rel="stylesheet" href="{{ get_url(path='/homepage.css', trailing_slash=false, cachebust=true) }}" />
+{% endblock stylesheets %}
+
 {% block content %}
-<div class="container post">
-  <article>
-    <header>
-      <h1>Projects</h1>
-    </header>
-    <ul>
-      {% for page in section.pages %}
-      <li><a href="{{ page.permalink }}">{{ page.title }}</a></li>
-      {% endfor %}
-    </ul>
-  </article>
+
+<div class="section-title">
+  <h2>{% if lang == "ru" %}Проекты{% else %}Projects{% endif %}</h2>
 </div>
+
+<div class="section">
+  <div class="container">
+    <div class="top-projects">
+      {% for p in section.pages %}
+        <div class="card">
+          <div class="card-content">
+            {% if p.extra.icon %}
+            <span class="card-icon" style="background-color: {{ p.extra.background | default(value='#1b1b1b') }}; color: {{ p.extra.color | default(value='#fff') }};">
+              {%- if p.extra.icon is matching("\.svg$") %}
+              {{ load_data(path=p.extra.icon) | safe }}
+              {%- else %}
+              <img src="{{ p.extra.icon }}" alt="{{ p.title }}" />
+              {%- endif %}
+            </span>
+            {% endif %}
+            <h4>{{ p.title }}</h4>
+          </div>
+          <div class="card-actions">
+            <a href="{{ p.permalink }}" class="button">
+              {% if lang == "ru" %}Читать далее{% else %}Read More{% endif %}
+            </a>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
 {% endblock content %}

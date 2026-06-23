@@ -53,27 +53,45 @@ theme = "github-dark"
 [extra]
 long_title = "Azamat Turganbayev"
 favicon = "/images/profile-sm.jpg"
+cv_en = "/files/ATurganbayev_CV.pdf"
+cv_ru = "/files/ATurganbayev_CV_ru.pdf"
 
 [extra.footer]
 source_code = "https://github.com/aturganbayev/aturganbayev-website-v2"
 
-[[extra.footer.socials]]
-name = "mail"
-label = "Email"
-value = "turga0607@gmail.com"
-link = "mailto:turga0607@gmail.com"
-[[extra.footer.socials]]
+[[extra.socials]]
 name = "github"
-label = "GitHub"
-value = "aturganbayev"
+icon = "/assets/icons/github.svg"
+label = "aturganbayev"
 link = "https://github.com/aturganbayev"
+
+[[extra.socials]]
+name = "mail"
+icon = "/assets/icons/mail.svg"
+label = "turga0607@gmail.com"
+link = "mailto:turga0607@gmail.com"
+
+[[extra.socials]]
+name = "linkedin"
+icon = "/assets/icons/linkedin.svg"
+label = "Azamat Turganbayev"
+link = "https://www.linkedin.com/in/aturganbayev"
+
+[[extra.socials]]
+name = "googlescholar"
+icon = "/assets/icons/googlescholar.svg"
+label = "Google Scholar"
+link = "https://scholar.google.com/citations?user=jgoXh5oAAAAJ&hl=en"
+
+[[extra.socials]]
+name = "researchgate"
+icon = "/assets/icons/researchgate.svg"
+label = "ResearchGate"
+link = "https://www.researchgate.net/profile/Azamat-Turganbayev"
 
 [[extra.links]]
 name = "Home"
 path = "/"
-[[extra.links]]
-name = "CV"
-path = "https://aturganbayev.github.io/cv" # Update this to your CV link
 
 [extra.authors."Azamat Turganbayev"]
 

@@ -1,7 +1,11 @@
 +++
 title = "Shoulder Rehabilitation Robotic Exoskeleton"
 [extra]
-paper = "https://cemrr.nu.edu.kz/en/news/9"
+news = "https://cemrr.nu.edu.kz/en/news/9"
+video = "https://www.youtube.com/watch?v=BF6AlbPFsx4&t=535s"
+icon = "/assets/icons/medical-bag.svg"
+background = "#009de0"
+color = "#fff"
 +++
 
 **Tools & Technologies:** CAD, 3D printing, four-bar linkage design, cable-driven parallel mechanisms, mechanical prototyping

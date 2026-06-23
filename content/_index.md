@@ -2,56 +2,19 @@
 [extra]
 profile_picture = "/images/profile-sm.jpg"
 name = "Azamat Turganbayev"
-subtitle = "MS in Robotics student"
+subtitle = "Robotics Engineer"
 about_me = """
-**Hey!**
-
-I'm Azamat Turganbayev!  
-I am an MS in Robotics student at the University of Minnesota.  
-Feel free to get in touch or take a look at my past work below.
+I'm a robotics engineer with research interests in robot manipulation, perception, and human-centered robotics. I'm currently pursuing an MS in Robotics at the University of Minnesota.  
+You can see my education and experience in the timeline below, along with my publications and talks.
 """
-###########
-# SOCIALS #
-###########
-
-[[extra.socials]]
-name = "github"
-icon = "/assets/icons/github.svg"
-label = "aturganbayev"
-link = "https://github.com/aturganbayev"
-
-[[extra.socials]]
-name = "mail"
-icon = "/assets/icons/mail.svg"
-label = "turga0607@gmail.com"
-link = "mailto:turga0607@gmail.com"
-
-[[extra.socials]]
-name = "linkedin"
-icon = "/assets/icons/linkedin.svg"
-label = "Azamat Turganbayev"
-link = "#"
-
-[[extra.socials]]
-name = "googlescholar"
-icon = "/assets/icons/googlescholar.svg"
-label = "Google Scholar"
-link = "#"
-
-[[extra.socials]]
-name = "researchgate"
-icon = "/assets/icons/researchgate.svg"
-label = "ResearchGate"
-link = "#"
-
 ################
 # TOP PROJECTS #
 ################
 
 [[extra.top_projects]]
 name = "Tactile Surface Exploration with UR5"
-icon = "/assets/icons/python.svg"
-link = "/projects/tactile-ur5"
+icon = "/assets/icons/robot-industrial.svg"
+link = "projects/tactile-ur5"
 calltoaction = "Read More"
 background = "#3776AB"
 color = "#fff"
@@ -61,9 +24,9 @@ Built an end-to-end pipeline for automated tactile exploration of a silicone con
 
 [[extra.top_projects]]
 name = "UR5 Flashlight Assembly"
-icon = "/assets/icons/python.svg"
-link = "/projects/ur5-flashlight"
-calltoaction = "Watch Demo"
+icon = "/assets/icons/flashlight.svg"
+link = "projects/ur5-flashlight"
+calltoaction = "Read More"
 background = "#434343"
 color = "#fff"
 description = """
@@ -72,9 +35,9 @@ Programmed a UR5 collaborative robot via the RoboDK Python API to autonomously a
 
 [[extra.top_projects]]
 name = "TurtleBot3 Obstacle Avoidance"
-icon = "/assets/icons/python.svg"
-link = "/projects/turtlebot3"
-calltoaction = "Watch Demo"
+icon = "/assets/icons/turtle.svg"
+link = "projects/turtlebot3"
+calltoaction = "Read More"
 background = "#273377"
 color = "#fff"
 description = """
@@ -83,8 +46,8 @@ Developed a LiDAR-based obstacle avoidance pipeline on TurtleBot3 Burger and int
 
 [[extra.top_projects]]
 name = "Shoulder Exoskeleton"
-icon = "/assets/icons/home.svg"
-link = "/projects/shoulder-exoskeleton"
+icon = "/assets/icons/medical-bag.svg"
+link = "projects/shoulder-exoskeleton"
 calltoaction = "Read More"
 background = "#009de0"
 color = "#fff"
@@ -94,8 +57,8 @@ Designed and built a 5-DOF hybrid robotic shoulder exoskeleton, enabling full-ra
 
 [[extra.top_projects]]
 name = "Miniature Shoulder Model"
-icon = "/assets/icons/home.svg"
-link = "/projects/miniature-shoulder"
+icon = "/assets/icons/cog.svg"
+link = "projects/miniature-shoulder"
 calltoaction = "Read More"
 background = "#004791"
 color = "#fff"
@@ -108,11 +71,36 @@ Designed a 5-DOF miniature shoulder coupling mechanism combining a 2-DOF crank-r
 ############
 
 [[extra.timeline]]
+title = "Foundation Year Program"
+subtitle = "Nazarbayev University"
+subtitle_link = "https://cps.nu.edu.kz/foundation"
+date = "Aug 2018 - May 2019"
+icon = "/assets/images/nu.png"
+background = "#0b2545"
+foreground = "#fff"
+content = """
+This is where my journey into robotics began. It was during this year that I chose robotics as my major, setting the course for everything that followed.
+"""
+
+[[extra.timeline]]
+title = "BS in Robotics and Mechatronics"
+subtitle = "Nazarbayev University"
+subtitle_link = "https://seds.nu.edu.kz/bachelor_in_re"
+date = "May 2019 - June 2023"
+icon = "/assets/images/nu.png"
+background = "#0b2545"
+foreground = "#fff"
+content = """
+Graduation Project: Shoulder Rehabilitation Robotic Exoskeleton. Coursework: Electromechanical Systems, Mechanical Design with CAD, Image Processing, Linear Control Theory, Microcontrollers, Robotics: Kinematics and Dynamics. Full Scholarship.
+"""
+
+[[extra.timeline]]
 title = "Undergraduate Research Assistant"
 subtitle = "Nazarbayev University"
+subtitle_link = "https://seds.nu.edu.kz/bachelor_in_re"
 date = "April 2022 - Nov 2023"
-icon = "/assets/icons/home.svg"
-background = "#1b1b1c"
+icon = "/assets/images/nu.png"
+background = "#0b2545"
 foreground = "#fff"
 content = """
 Investigated biomechanical aspects of human-robot interaction to improve the efficacy of stroke recovery. Built early 3D-printed prototypes that became the basis for the full-scale exoskeleton.
@@ -121,9 +109,10 @@ Investigated biomechanical aspects of human-robot interaction to improve the eff
 [[extra.timeline]]
 title = "Robotics Laboratory Assistant"
 subtitle = "Nazarbayev University"
+subtitle_link = "https://seds.nu.edu.kz/sedslaboratories"
 date = "Nov 2023 - July 2025"
-icon = "/assets/icons/home.svg"
-background = "#007396"
+icon = "/assets/images/nu.png"
+background = "#0b2545"
 foreground = "#fff"
 content = """
 Managed laboratory operations and technical coordination, keeping facilities and equipment ready for complex robotics research and coursework.
@@ -132,9 +121,10 @@ Managed laboratory operations and technical coordination, keeping facilities and
 [[extra.timeline]]
 title = "Senior Research Assistant"
 subtitle = "CEMRR"
+subtitle_link = "https://cemrr.nu.edu.kz/en"
 date = "Nov 2023 - April 2025"
-icon = "/assets/icons/heart.svg"
-background = "#e91425"
+icon = "/assets/images/cemrr.png"
+background = "#3d4f8c"
 foreground = "#fff"
 content = """
 Conducted advanced research on robotic-assisted rehabilitation, focused on enhancing upper limb recovery for stroke survivors. Led the design and development of a full-scale hybrid robotic shoulder exoskeleton.
@@ -143,23 +133,86 @@ Conducted advanced research on robotic-assisted rehabilitation, focused on enhan
 [[extra.timeline]]
 title = "MS in Robotics"
 subtitle = "University of Minnesota"
+subtitle_link = "https://cse.umn.edu/mnri/masters-robotics-overview"
 date = "Sept 2025 - Dec 2026"
-icon = "/assets/icons/home.svg"
-background = "#7a0019"
-foreground = "#fff"
+icon = "/assets/icons/umn-logo.svg"
+icon_scale = 1.7
+background = "#ffcc33"
+foreground = "#7a0019"
 content = """
-Studying Machine Learning Fundamentals, Robotics, Robot Vision, Introduction to Intelligent Robotics Systems, and 3D Bioprinting under the Bolashak Scholarship.
+Studying Machine Learning Fundamentals, Robotics, Robot Vision, Introduction to Intelligent Robotics Systems, and 3D Bioprinting under the [Bolashak Scholarship](https://bolashak.gov.kz/en/o-kompanii).
 """
 
 [[extra.timeline]]
 title = "Research Assistant"
 subtitle = "Tactile Robotics Laboratory"
+subtitle_link = "https://tact.nu.edu.kz/"
 date = "May 2026 - Present"
-icon = "/assets/icons/home.svg"
-background = "#0a74db"
+icon = "/assets/images/tactile.jpg"
+background = "#a8651a"
 foreground = "#fff"
 content = """
 Developed an automated tactile exploration system for a UR5 robot arm, enabling systematic, calibrated surface-contact mapping with synchronized force sensing on simulated and physical robots.
 """
+
+################
+# PUBLICATIONS #
+################
+
+[[extra.publications]]
+authors = "A. Niyetkaliyev, **A. Turganbayev**, M. Karasheva, R. Zhylkaidarov and Y. Turlybek"
+title = "Exploring the Potential of Four-Bar Linkages in Robotic Exoskeletons: A Comprehensive Review"
+venue = "Journal of Mechanical Design, vol. 147, no. 10, April 2025"
+link = "https://asmedigitalcollection.asme.org/mechanicaldesign/article-abstract/147/10/100801/1213536/Exploring-the-Potential-of-Four-Bar-Linkages-in?redirectedFrom=fulltext"
+doi = "10.1115/1.4068107"
+
+[[extra.publications]]
+authors = "M. Karasheva, **A. Turganbayev**, A. Aimysheva and A. Niyetkaliyev"
+title = "Design of a 3D Printed Miniature Model for Human-Robot Mechanism Coupling for Shoulder Rehabilitation"
+venue = "2023 8th International Conference on Robotics and Automation Engineering (ICRAE), Singapore, Singapore, 2023, pp. 58–65"
+link = "https://ieeexplore.ieee.org/document/10458641"
+doi = "10.1109/ICRAE59816.2023.10458641"
+
+[[extra.publications]]
+authors = "S. Omirbayev, I. Issa, Z. Kuangaliyev, **A. Turganbayev** and A. Niyetkaliyev"
+title = "The Use of Four-Bar Mechanisms in Robotic Exoskeletons"
+venue = "2022 International Conference on Advanced Mechatronic Systems (ICAMechS), Toyama, Japan, 2022, pp. 149–156"
+link = "https://ieeexplore.ieee.org/document/10003280"
+doi = "10.1109/ICAMechS57222.2022.10003280"
+
+#########
+# TALKS #
+#########
+
+[[extra.talks]]
+date = "May 5, 2026"
+type = "Project Presentation"
+title = "Printability of Different PEGDA Concentrations"
+venue = "BMEN5361: 3D Bioprinting (Spring 2026), University of Minnesota, Twin Cities, MN"
+
+[[extra.talks]]
+date = "Dec 9, 2025"
+type = "Project Presentation"
+title = "Vision-Based ArUco Marker Navigation and Obstacle-Avoiding Algorithm for TurtleBot3 Burger Robot"
+venue = "EE 5271: Robot Vision (Fall 2025), University of Minnesota, Twin Cities, MN"
+
+[[extra.talks]]
+date = "Dec 1, 2025"
+type = "Project Presentation"
+title = "Vision-Based ArUco Marker Navigation and Obstacle-Avoiding Algorithm for TurtleBot3 Burger Robot"
+venue = "CSCI 5551: Introduction to Intelligent Robotic Systems (Fall 2025), University of Minnesota, Twin Cities, MN"
+
+[[extra.talks]]
+date = "May 2, 2023"
+type = "Project Presentation"
+title = "Shoulder Rehabilitation Robotic Exoskeleton"
+venue = "ROBT 491: Graduation Project (Spring 2023), Nazarbayev University, Astana, Kazakhstan"
+
+[[extra.talks]]
+date = "Dec 19, 2022"
+type = "Conference Presentation"
+title = "The Use of Four-Bar Mechanisms in Robotic Exoskeletons"
+title_link = "https://ieeexplore.ieee.org/document/10003280/"
+venue = "2022 International Conference on Advanced Mechatronic Systems (ICAMechS), Toyama, Japan"
 
 +++

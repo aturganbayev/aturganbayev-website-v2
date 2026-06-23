@@ -12,8 +12,20 @@
     {%- endblock head %}
   </head>
   <body>
+    {%- set alt_lang = "en" %}
+    {%- if lang == "en" %}{% set alt_lang = "ru" %}{% endif %}
+    {%- set_global alt_lang_url = get_url(path="/", lang=alt_lang) %}
+    {%- if page is defined %}
+      {%- for t in page.translations %}
+        {%- if t.lang == alt_lang %}{% set_global alt_lang_url = t.permalink %}{% endif %}
+      {%- endfor %}
+    {%- elif section is defined %}
+      {%- for t in section.translations %}
+        {%- if t.lang == alt_lang %}{% set_global alt_lang_url = t.permalink %}{% endif %}
+      {%- endfor %}
+    {%- endif %}
     <header>
-      {{- macros_navbar::navbar_dom() }}
+      {{- macros_navbar::navbar_dom(alt_lang_url=alt_lang_url) }}
     </header>
     <main id="top">
       {%- block content %}
@@ -23,17 +35,17 @@
       <div class="container footer-sections">
         <div class="footer-section">
           <h2>{% if lang == "ru" %}Свяжитесь со мной{% else %}Contact me{% endif %}</h2>
-          <ul>
-            {% for social in config.extra.footer.socials %}
+          <ul class="footer-socials">
+            {% for social in config.extra.socials %}
               <li>
-                <span class="social-label">{{ social.label }}: </span>
                 <a
                   href="{{ social.link }}"
                   target="_blank"
                   rel="me noopener"
                   data-umami-event="{{ social.name }}-social-footer"
                 >
-                  {{ social.value }}
+                  <span class="footer-social-icon">{{ load_data(path=social.icon) | safe }}</span>
+                  {{ social.label }}
                 </a>
               </li>
             {% endfor %}
@@ -54,6 +66,7 @@
             {%- endif %}
             <li><a href="{{ href }}">{{ link_name }}</a></li>
             {%- endfor %}
+            <li><a href="{% if lang == 'ru' %}{{ config.extra.cv_ru }}{% else %}{{ config.extra.cv_en }}{% endif %}" target="_blank" rel="noopener">{% if lang == "ru" %}Резюме{% else %}CV{% endif %}</a></li>
           </ul>
         </div>
       </div>

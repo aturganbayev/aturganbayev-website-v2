@@ -2,7 +2,10 @@
 title = "TurtleBot3 Obstacle Avoidance & ArUco Marker Navigation"
 [extra]
 github = "https://github.com/aturganbayev/CSCI5551-EE5271_Turtlebot_Navigation"
-paper = "/files/CSCI5551_Final_Project.pdf"
+report = "/files/CSCI5551_Final_Project.pdf"
+icon = "/assets/icons/turtle.svg"
+background = "#273377"
+color = "#fff"
 +++
 
 **Tools & Technologies:** TurtleBot3 Burger, ROS2 Humble, LiDAR, Raspberry Pi camera, Gazebo, RViz, Python

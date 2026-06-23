@@ -2,56 +2,19 @@
 [extra]
 profile_picture = "/images/profile-sm.jpg"
 name = "Азамат Турганбаев"
-subtitle = "Студент магистратуры по робототехнике"
+subtitle = "Инженер-робототехник"
 about_me = """
-**Привет!**
-
-Я Азамат Турганбаев!  
-Я студент магистратуры по робототехнике в Университете Миннесоты.  
-Свяжитесь со мной или посмотрите мои прошлые проекты ниже.
+Я инженер-робототехник с научными интересами в области манипуляции роботами, восприятия и робототехники, ориентированной на человека. Сейчас я учусь в магистратуре по робототехнике в Университете Миннесоты.  
+Моё образование и опыт вы можете увидеть в хронологии ниже, а также мои публикации и доклады.
 """
-###########
-# SOCIALS #
-###########
-
-[[extra.socials]]
-name = "github"
-icon = "/assets/icons/github.svg"
-label = "aturganbayev"
-link = "https://github.com/aturganbayev"
-
-[[extra.socials]]
-name = "mail"
-icon = "/assets/icons/mail.svg"
-label = "turga0607@gmail.com"
-link = "mailto:turga0607@gmail.com"
-
-[[extra.socials]]
-name = "linkedin"
-icon = "/assets/icons/linkedin.svg"
-label = "Азамат Турганбаев"
-link = "#"
-
-[[extra.socials]]
-name = "googlescholar"
-icon = "/assets/icons/googlescholar.svg"
-label = "Google Scholar"
-link = "#"
-
-[[extra.socials]]
-name = "researchgate"
-icon = "/assets/icons/researchgate.svg"
-label = "ResearchGate"
-link = "#"
-
 ################
 # TOP PROJECTS #
 ################
 
 [[extra.top_projects]]
 name = "Тактильное исследование поверхности с UR5"
-icon = "/assets/icons/python.svg"
-link = "/projects/tactile-ur5"
+icon = "/assets/icons/robot-industrial.svg"
+link = "projects/tactile-ur5"
 calltoaction = "Читать далее"
 background = "#3776AB"
 color = "#fff"
@@ -61,9 +24,9 @@ description = """
 
 [[extra.top_projects]]
 name = "Сборка фонарика UR5"
-icon = "/assets/icons/python.svg"
-link = "/projects/ur5-flashlight"
-calltoaction = "Смотреть демо"
+icon = "/assets/icons/flashlight.svg"
+link = "projects/ur5-flashlight"
+calltoaction = "Читать далее"
 background = "#434343"
 color = "#fff"
 description = """
@@ -72,9 +35,9 @@ description = """
 
 [[extra.top_projects]]
 name = "TurtleBot3: Избегание препятствий"
-icon = "/assets/icons/python.svg"
-link = "/projects/turtlebot3"
-calltoaction = "Смотреть демо"
+icon = "/assets/icons/turtle.svg"
+link = "projects/turtlebot3"
+calltoaction = "Читать далее"
 background = "#273377"
 color = "#fff"
 description = """
@@ -83,8 +46,8 @@ description = """
 
 [[extra.top_projects]]
 name = "Плечевой экзоскелет"
-icon = "/assets/icons/home.svg"
-link = "/projects/shoulder-exoskeleton"
+icon = "/assets/icons/medical-bag.svg"
+link = "projects/shoulder-exoskeleton"
 calltoaction = "Читать далее"
 background = "#009de0"
 color = "#fff"
@@ -94,8 +57,8 @@ description = """
 
 [[extra.top_projects]]
 name = "Миниатюрная модель плеча"
-icon = "/assets/icons/home.svg"
-link = "/projects/miniature-shoulder"
+icon = "/assets/icons/cog.svg"
+link = "projects/miniature-shoulder"
 calltoaction = "Читать далее"
 background = "#004791"
 color = "#fff"
@@ -108,11 +71,36 @@ description = """
 ############
 
 [[extra.timeline]]
+title = "Подготовительная программа (Foundation Year)"
+subtitle = "Назарбаев Университет"
+subtitle_link = "https://cps.nu.edu.kz/foundation"
+date = "Август 2018 - Май 2019"
+icon = "/assets/images/nu.png"
+background = "#0b2545"
+foreground = "#fff"
+content = """
+Именно здесь началось моё путешествие в робототехнику. Именно в этом году я выбрал робототехнику своей специальностью, что определило весь дальнейший путь.
+"""
+
+[[extra.timeline]]
+title = "Бакалавриат по Робототехнике и Мехатронике"
+subtitle = "Назарбаев Университет"
+subtitle_link = "https://seds.nu.edu.kz/ru/bachelor_in_re"
+date = "Май 2019 - Июнь 2023"
+icon = "/assets/images/nu.png"
+background = "#0b2545"
+foreground = "#fff"
+content = """
+Дипломный проект: Реабилитационный экзоскелет плечевого сустава. Курсы: Электромеханические системы, Конструирование с применением САПР, Обработка изображений, Линейная теория управления, Микроконтроллеры, Робототехника: кинематика и динамика. Полная стипендия.
+"""
+
+[[extra.timeline]]
 title = "Помощник исследователя (бакалавриат)"
 subtitle = "Назарбаев Университет"
+subtitle_link = "https://seds.nu.edu.kz/ru/bachelor_in_re"
 date = "Апрель 2022 - Ноябрь 2023"
-icon = "/assets/icons/home.svg"
-background = "#1b1b1c"
+icon = "/assets/images/nu.png"
+background = "#0b2545"
 foreground = "#fff"
 content = """
 Исследовал биомеханические аспекты взаимодействия человека и робота для повышения эффективности восстановления после инсульта.
@@ -121,9 +109,10 @@ content = """
 [[extra.timeline]]
 title = "Лаборант по робототехнике"
 subtitle = "Назарбаев Университет"
+subtitle_link = "https://seds.nu.edu.kz/ru/sedslaboratories"
 date = "Ноябрь 2023 - Июль 2025"
-icon = "/assets/icons/home.svg"
-background = "#007396"
+icon = "/assets/images/nu.png"
+background = "#0b2545"
 foreground = "#fff"
 content = """
 Управлял работой лаборатории и технической координацией, подготавливая оборудование для исследований и занятий по робототехнике.
@@ -132,9 +121,10 @@ content = """
 [[extra.timeline]]
 title = "Старший помощник исследователя"
 subtitle = "CEMRR"
+subtitle_link = "https://cemrr.nu.edu.kz/ru"
 date = "Ноябрь 2023 - Апрель 2025"
-icon = "/assets/icons/heart.svg"
-background = "#e91425"
+icon = "/assets/images/cemrr.png"
+background = "#3d4f8c"
 foreground = "#fff"
 content = """
 Проводил передовые исследования в области роботизированной реабилитации, руководил разработкой гибридного роботизированного плечевого экзоскелета.
@@ -143,22 +133,86 @@ content = """
 [[extra.timeline]]
 title = "Магистратура по робототехнике"
 subtitle = "Университет Миннесоты"
+subtitle_link = "https://cse.umn.edu/mnri/masters-robotics-overview"
 date = "Сентябрь 2025 - Декабрь 2026"
-icon = "/assets/icons/home.svg"
-background = "#7a0019"
-foreground = "#fff"
+icon = "/assets/icons/umn-logo.svg"
+icon_scale = 1.7
+background = "#ffcc33"
+foreground = "#7a0019"
 content = """
-Изучаю основы машинного обучения, робототехнику, компьютерное зрение и системы интеллектуальной робототехники в рамках стипендии Болашак.
+Изучаю основы машинного обучения, робототехнику, компьютерное зрение и системы интеллектуальной робототехники в рамках [стипендии Болашак](https://bolashak.gov.kz/ru/o-kompanii).
 """
 
 [[extra.timeline]]
 title = "Помощник исследователя"
 subtitle = "Лаборатория тактильной робототехники"
+subtitle_link = "https://tact.nu.edu.kz/"
 date = "Май 2026 - Настоящее время"
-icon = "/assets/icons/home.svg"
-background = "#0a74db"
+icon = "/assets/images/tactile.jpg"
+background = "#a8651a"
 foreground = "#fff"
 content = """
 Разработал систему автоматизированного тактильного исследования для манипулятора UR5.
 """
+
+################
+# PUBLICATIONS #
+################
+
+[[extra.publications]]
+authors = "A. Niyetkaliyev, **A. Turganbayev**, M. Karasheva, R. Zhylkaidarov and Y. Turlybek"
+title = "Exploring the Potential of Four-Bar Linkages in Robotic Exoskeletons: A Comprehensive Review"
+venue = "Journal of Mechanical Design, vol. 147, no. 10, April 2025"
+link = "https://asmedigitalcollection.asme.org/mechanicaldesign/article-abstract/147/10/100801/1213536/Exploring-the-Potential-of-Four-Bar-Linkages-in?redirectedFrom=fulltext"
+doi = "10.1115/1.4068107"
+
+[[extra.publications]]
+authors = "M. Karasheva, **A. Turganbayev**, A. Aimysheva and A. Niyetkaliyev"
+title = "Design of a 3D Printed Miniature Model for Human-Robot Mechanism Coupling for Shoulder Rehabilitation"
+venue = "2023 8th International Conference on Robotics and Automation Engineering (ICRAE), Singapore, Singapore, 2023, pp. 58–65"
+link = "https://ieeexplore.ieee.org/document/10458641"
+doi = "10.1109/ICRAE59816.2023.10458641"
+
+[[extra.publications]]
+authors = "S. Omirbayev, I. Issa, Z. Kuangaliyev, **A. Turganbayev** and A. Niyetkaliyev"
+title = "The Use of Four-Bar Mechanisms in Robotic Exoskeletons"
+venue = "2022 International Conference on Advanced Mechatronic Systems (ICAMechS), Toyama, Japan, 2022, pp. 149–156"
+link = "https://ieeexplore.ieee.org/document/10003280"
+doi = "10.1109/ICAMechS57222.2022.10003280"
+
+#########
+# TALKS #
+#########
+
+[[extra.talks]]
+date = "5 мая 2026"
+type = "Презентация проекта"
+title = "Способность к печати PEGDA различных концентраций"
+venue = "BMEN5361: 3D-биопечать (Весна 2026), Университет Миннесоты, Твин-Ситис"
+
+[[extra.talks]]
+date = "9 декабря 2025"
+type = "Презентация проекта"
+title = "Навигация на основе маркеров ArUco и алгоритм обхода препятствий для робота TurtleBot3 Burger"
+venue = "EE 5271: Компьютерное зрение роботов (Осень 2025), Университет Миннесоты, Твин-Ситис"
+
+[[extra.talks]]
+date = "1 декабря 2025"
+type = "Презентация проекта"
+title = "Навигация на основе маркеров ArUco и алгоритм обхода препятствий для робота TurtleBot3 Burger"
+venue = "CSCI 5551: Введение в интеллектуальные робототехнические системы (Осень 2025), Университет Миннесоты, Твин-Ситис"
+
+[[extra.talks]]
+date = "2 мая 2023"
+type = "Презентация проекта"
+title = "Реабилитационный экзоскелет плечевого сустава"
+venue = "ROBT 491: Дипломный проект (Весна 2023), Назарбаев Университет, Астана, Казахстан"
+
+[[extra.talks]]
+date = "19 декабря 2022"
+type = "Конференц-доклад"
+title = "The Use of Four-Bar Mechanisms in Robotic Exoskeletons"
+title_link = "https://ieeexplore.ieee.org/document/10003280/"
+venue = "2022 Международная конференция по передовым мехатронным системам (ICAMechS), Тояма, Япония"
+
 +++

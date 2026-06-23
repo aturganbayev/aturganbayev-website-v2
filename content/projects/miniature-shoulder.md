@@ -2,6 +2,9 @@
 title = "3D-Printed Miniature Model for Human-Robot Shoulder Coupling"
 [extra]
 paper = "https://ieeexplore.ieee.org/document/10458641"
+icon = "/assets/icons/cog.svg"
+background = "#004791"
+color = "#fff"
 +++
 
 **Tools & Technologies:** SolidWorks, MATLAB, four-bar linkage kinematics, cable-driven parallel mechanisms, 3D printing

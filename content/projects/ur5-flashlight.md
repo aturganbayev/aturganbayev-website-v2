@@ -2,7 +2,10 @@
 title = "Automated Flashlight Assembly with UR5"
 [extra]
 github = "https://github.com/aturganbayev/ME5286_UR5_Flashlight_Assembly#me5286-lab-4--ur5-flashlight-assembly"
-paper = "/files/ME5286_Flashlight_Assembly.pdf"
+report = "/files/ME5286_Flashlight_Assembly.pdf"
+icon = "/assets/icons/flashlight.svg"
+background = "#434343"
+color = "#fff"
 +++
 
 **Tools & Technologies:** UR5, RoboDK, Python, Cartesian & joint-space motion planning, pneumatic clamping

@@ -2,6 +2,9 @@
 title = "Tactile Surface Exploration with UR5"
 [extra]
 github = "https://github.com/aturganbayev/tactile_UR5"
+icon = "/assets/icons/robot-industrial.svg"
+background = "#3776AB"
+color = "#fff"
 +++
 
 **Tools & Technologies:** UR5, URScript, Python, trimesh, NumPy, SciPy (ICP), pandas, Matplotlib, Docker (URSim), ATI Nano17 force sensor, NI-DAQ
