@@ -1,0 +1,14 @@
++++
+title = "Tactile Surface Exploration with UR5"
+[extra]
+github = "https://github.com/aturganbayev/tactile_UR5"
++++
+
+**Tools & Technologies:** UR5, URScript, Python, trimesh, NumPy, SciPy (ICP), pandas, Matplotlib, Docker (URSim), ATI Nano17 force sensor, NI-DAQ
+
+* Built an end-to-end pipeline for automated tactile exploration of a silicone cone with a UR5 collaborative arm, from CAD-derived surface geometry to executed touch sequences with synchronized contact-force recording on both simulated and physical robots.
+* Sampled 3,000 surface points with normals from the cone STL using `trimesh`, then calibrated to the robot base frame with an axis-constrained, translation-only ICP fit (cone axis pinned vertical to avoid a spurious tilt from apex-clustered touch points), reaching ~2.2 mm RMS alignment error.
+* Generated full-surface and 15-strip vertical touch-pose patterns with height-scaled orientation tilt (5°–15°) for tool clearance, then executed them via a custom Python UR5 IK solver (needed because the controller's single-seed IK fails to converge for poses spread around the cone), streaming URScript approach-press-retract sequences over a raw TCP socket.
+* Synchronized ATI Nano17 force readings with the UR5's real-time TCP pose stream via NI-DAQ, auto-detecting each press and logging its peak force and pose for offline analysis.
+
+{{ youtube(id="ED0S0Vk0w-s") }}

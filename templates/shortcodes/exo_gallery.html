@@ -1,0 +1,14 @@
+<div class="exo-gallery" style="margin-top: 10px;">
+  <div class="exo-track">
+    {% for img in images %}
+    <img class="exo-slide" src="{{ img }}" alt="Gallery Image {{ loop.index }}" loading="lazy">
+    {% endfor %}
+  </div>
+  <button type="button" class="exo-arrow exo-prev" aria-label="Previous photo">&#10094;</button>
+  <button type="button" class="exo-arrow exo-next" aria-label="Next photo">&#10095;</button>
+  <div class="exo-thumbs"></div>
+  <div class="exo-lightbox" hidden>
+    <span class="exo-lightbox-close" aria-hidden="true">&times;</span>
+    <img class="exo-lightbox-img" src="" alt="">
+  </div>
+</div>

@@ -1,0 +1,468 @@
+{%- macro particles_script() %}
+<script>
+(function() {
+  const canvas = document.getElementById('robot-arm-canvas');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  let width, height;
+
+  function resize() {
+    width = canvas.width = window.innerWidth;
+    height = canvas.height = window.innerHeight;
+  }
+  window.addEventListener('resize', resize);
+  resize();
+
+  class Segment {
+    constructor(length) {
+      this.length = length;
+      this.x = 0;
+      this.y = 0;
+      this.angle = 0;
+    }
+  }
+
+  // Global synchronized state machine for perfect mirroring
+  let globalState = 'INIT'; // INIT -> MOVE_TO_PICK -> GRAB -> MOVE_TO_PLACE -> DROP -> LIFT_UP -> WAIT
+  let globalT = 0;
+  let globalTimer = 0;
+  let globalHasBox = false;
+  let moveFromA = true;
+
+  function updateGlobalCycle() {
+    if (globalState === 'INIT') {
+      globalState = 'MOVE_TO_PICK';
+      return;
+    }
+
+    const speedPlace = 0.00525; // Increased by 50%
+    const speedVertical = 0.0225; // Increased by 50%
+
+    switch(globalState) {
+      case 'MOVE_TO_PICK':
+        globalT += speedVertical;
+        if (globalT >= 1) {
+          globalT = 1;
+          globalState = 'GRAB';
+          globalTimer = 0;
+        }
+        break;
+      case 'GRAB':
+        globalTimer++;
+        if (globalTimer > 15) {
+          globalHasBox = true;
+          globalState = 'MOVE_TO_PLACE';
+          globalT = 0;
+        }
+        break;
+      case 'MOVE_TO_PLACE':
+        globalT += speedPlace;
+        if (globalT >= 1) {
+          globalT = 1;
+          globalState = 'DROP';
+          globalTimer = 0;
+        }
+        break;
+      case 'DROP':
+        globalTimer++;
+        if (globalTimer > 15) {
+          globalHasBox = false;
+          globalState = 'LIFT_UP';
+          globalT = 0;
+        }
+        break;
+      case 'LIFT_UP':
+        globalT += speedVertical;
+        if (globalT >= 1) {
+          globalT = 1;
+          globalState = 'WAIT';
+          globalTimer = 0;
+        }
+        break;
+      case 'WAIT':
+        globalTimer++;
+        if (globalTimer > 60) {
+          moveFromA = !moveFromA;
+          globalState = 'MOVE_TO_PICK';
+          globalT = 0;
+        }
+        break;
+    }
+  }
+
+  class RobotArm {
+    constructor(xRatio) {
+      this.xRatio = xRatio;
+      this.segments = [
+        new Segment(220), 
+        new Segment(220), 
+        new Segment(60)   
+      ];
+      this.base = { x: 0, y: 0 };
+      this.target = { x: 0, y: 0 };
+      this.posA = null;
+      this.posB = null;
+      this.arcHeight = 160;
+      this.hoverHeight = 80;
+      this.box = null;
+    }
+
+    initPositions(width, height) {
+      if (!this.posA) {
+        let dir = this.xRatio < 0.5 ? 1 : -1;
+        this.base.x = width * this.xRatio;
+        this.base.y = height - 50; 
+        
+        let floorY = height - 50;
+        this.posA = { x: this.base.x + 80 * dir, y: floorY };
+        this.posB = { x: this.base.x + 300 * dir, y: floorY };
+        
+        this.box = { x: this.posA.x, y: this.posA.y, size: 40 };
+      }
+    }
+
+    update(width, height) {
+      this.base.x = width * this.xRatio;
+      this.base.y = height - 50; 
+      this.initPositions(width, height);
+
+      let currentStart = moveFromA ? this.posA : this.posB;
+      let currentEnd = moveFromA ? this.posB : this.posA;
+
+      if (globalState === 'MOVE_TO_PICK') {
+        let ease = globalT < 0.5 ? 2 * globalT * globalT : 1 - Math.pow(-2 * globalT + 2, 2) / 2;
+        this.target.x = currentStart.x;
+        this.target.y = currentStart.y - this.hoverHeight * (1 - ease) - this.box.size / 2;
+      } 
+      else if (globalState === 'GRAB') {
+        this.target.x = currentStart.x;
+        this.target.y = currentStart.y - this.box.size / 2;
+      } 
+      else if (globalState === 'MOVE_TO_PLACE') {
+        let ease = globalT < 0.5 ? 4 * globalT * globalT * globalT : 1 - Math.pow(-2 * globalT + 2, 3) / 2;
+        let targetX = currentStart.x + (currentEnd.x - currentStart.x) * ease;
+        let targetY = currentStart.y + (currentEnd.y - currentStart.y) * ease;
+        targetY -= Math.sin(ease * Math.PI) * this.arcHeight;
+        
+        this.target.x = targetX;
+        this.target.y = targetY - this.box.size / 2;
+      } 
+      else if (globalState === 'DROP') {
+        this.target.x = currentEnd.x;
+        this.target.y = currentEnd.y - this.box.size / 2;
+      } 
+      else if (globalState === 'LIFT_UP') {
+        let ease = globalT < 0.5 ? 2 * globalT * globalT : 1 - Math.pow(-2 * globalT + 2, 2) / 2;
+        this.target.x = currentEnd.x;
+        this.target.y = currentEnd.y - this.hoverHeight * ease - this.box.size / 2;
+      } 
+      else if (globalState === 'WAIT') {
+        this.target.x = currentEnd.x;
+        this.target.y = currentEnd.y - this.hoverHeight - this.box.size / 2;
+      }
+
+      if (globalHasBox) {
+        this.box.x = this.target.x;
+        this.box.y = this.target.y + this.box.size / 2;
+      }
+
+      this.solveAnalyticIK();
+    }
+
+    solveAnalyticIK() {
+      let L1 = this.segments[0].length;
+      let L2 = this.segments[1].length;
+      let L3 = this.segments[2].length;
+      
+      this.segments[2].angle = Math.PI / 2;
+      
+      let ikTargetX = this.target.x - Math.cos(Math.PI / 2) * L3;
+      let ikTargetY = this.target.y - Math.sin(Math.PI / 2) * L3;
+      
+      let dx = ikTargetX - this.base.x;
+      let dy = ikTargetY - this.base.y;
+      let dist = Math.hypot(dx, dy);
+      
+      if (dist > L1 + L2) {
+        dist = L1 + L2 - 0.001;
+        let scale = dist / Math.hypot(dx, dy);
+        dx *= scale;
+        dy *= scale;
+        ikTargetX = this.base.x + dx;
+        ikTargetY = this.base.y + dy;
+      }
+      
+      let cosTheta2 = (dist*dist - L1*L1 - L2*L2) / (2 * L1 * L2);
+      cosTheta2 = Math.max(-1, Math.min(1, cosTheta2));
+      
+      let angleBaseToTarget = Math.atan2(dy, dx);
+      
+      let cosTheta1 = (L1*L1 + dist*dist - L2*L2) / (2 * L1 * dist);
+      cosTheta1 = Math.max(-1, Math.min(1, cosTheta1));
+      let alpha = Math.acos(cosTheta1);
+      
+      let dirSign = dx < 0 ? -1 : 1;
+      let theta1 = angleBaseToTarget - (dirSign * alpha);
+      
+      let jointX = this.base.x + Math.cos(theta1) * L1;
+      let jointY = this.base.y + Math.sin(theta1) * L1;
+      
+      let forearmAngle = Math.atan2(ikTargetY - jointY, ikTargetX - jointX);
+      
+      this.segments[0].x = this.base.x;
+      this.segments[0].y = this.base.y;
+      this.segments[0].angle = theta1;
+      
+      this.segments[1].x = jointX;
+      this.segments[1].y = jointY;
+      this.segments[1].angle = forearmAngle;
+      
+      this.segments[2].x = ikTargetX;
+      this.segments[2].y = ikTargetY;
+    }
+
+    draw() {
+      if (this.box) {
+        ctx.fillStyle = '#e67e22'; 
+        ctx.strokeStyle = '#d35400';
+        ctx.lineWidth = 3;
+        ctx.beginPath();
+        ctx.rect(this.box.x - this.box.size/2, this.box.y - this.box.size/2, this.box.size, this.box.size);
+        ctx.fill();
+        ctx.stroke();
+        
+        ctx.lineWidth = 1.5;
+        ctx.beginPath();
+        ctx.moveTo(this.box.x - this.box.size/2, this.box.y - this.box.size/2);
+        ctx.lineTo(this.box.x + this.box.size/2, this.box.y + this.box.size/2);
+        ctx.moveTo(this.box.x + this.box.size/2, this.box.y - this.box.size/2);
+        ctx.lineTo(this.box.x - this.box.size/2, this.box.y + this.box.size/2);
+        ctx.stroke();
+      }
+
+      ctx.fillStyle = '#222';
+      ctx.beginPath();
+      ctx.arc(this.base.x, this.base.y, 60, Math.PI, 0);
+      ctx.fill();
+
+      for (let i = 0; i < this.segments.length; i++) {
+        let seg = this.segments[i];
+        let endX = seg.x + Math.cos(seg.angle) * seg.length;
+        let endY = seg.y + Math.sin(seg.angle) * seg.length;
+
+        ctx.strokeStyle = '#cccccc';
+        ctx.lineWidth = Math.max(12, 45 - (i * 12));
+        ctx.lineCap = 'round';
+        ctx.beginPath();
+        ctx.moveTo(seg.x, seg.y);
+        ctx.lineTo(endX, endY);
+        ctx.stroke();
+
+        if (i < this.segments.length - 1) {
+          ctx.fillStyle = '#3776AB'; 
+          ctx.beginPath();
+          ctx.arc(seg.x, seg.y, ctx.lineWidth / 1.5 + 4, 0, Math.PI * 2);
+          ctx.fill();
+          
+          ctx.fillStyle = '#222';
+          ctx.beginPath();
+          ctx.arc(seg.x, seg.y, ctx.lineWidth / 3, 0, Math.PI * 2);
+          ctx.fill();
+        }
+      }
+
+      let last = this.segments[this.segments.length - 1];
+      let endX = last.x + Math.cos(last.angle) * last.length;
+      let endY = last.y + Math.sin(last.angle) * last.length;
+
+      ctx.strokeStyle = '#ff8c00'; 
+      ctx.lineWidth = 6;
+      ctx.lineCap = 'square';
+      
+      ctx.beginPath();
+      ctx.moveTo(endX - 22, endY);
+      ctx.lineTo(endX + 22, endY);
+      ctx.stroke();
+
+      let fingerOffset = globalHasBox ? (this.box.size / 2 + 2) : 22;
+
+      ctx.beginPath();
+      ctx.moveTo(endX - fingerOffset, endY);
+      ctx.lineTo(endX - fingerOffset, endY + 25);
+      ctx.stroke();
+
+      ctx.beginPath();
+      ctx.moveTo(endX + fingerOffset, endY);
+      ctx.lineTo(endX + fingerOffset, endY + 25);
+      ctx.stroke();
+    }
+  }
+
+  class Drone {
+    constructor(x, y, minXFunc, maxXFunc, direction) {
+      this.x = x;
+      this.y = y;
+      this.angle = 0;
+      this.rotorAngle = 0;
+      this.minXFunc = minXFunc;
+      this.maxXFunc = maxXFunc;
+      this.side = 0; 
+      this.direction = direction; // 1 for Clockwise, -1 for Counterclockwise
+      this.speed = 1.2;
+    }
+
+    update(width, height) {
+      this.rotorAngle += 0.4;
+
+      let margin = 20;
+      let minY = 100;
+      let maxY = height * 0.35 - margin;
+      let minX = this.minXFunc(width) + margin;
+      let maxX = this.maxXFunc(width) - margin;
+
+      let W = maxX - minX;
+      let H = maxY - minY;
+      let P = 2 * (W + H);
+
+      // Use a global timer so all drones are perfectly synchronized
+      let dist = (Date.now() * 0.072) % P;
+      
+      let prevX = this.x;
+
+      if (this.direction === 1) {
+        // Clockwise (Right Drone)
+        if (dist < W) {
+          this.x = minX + dist;
+          this.y = minY;
+        } else if (dist < W + H) {
+          this.x = maxX;
+          this.y = minY + (dist - W);
+        } else if (dist < 2 * W + H) {
+          this.x = maxX - (dist - (W + H));
+          this.y = maxY;
+        } else {
+          this.x = minX;
+          this.y = maxY - (dist - (2 * W + H));
+        }
+      } else {
+        // Counterclockwise (Left Drone)
+        if (dist < W) {
+          this.x = maxX - dist;
+          this.y = minY;
+        } else if (dist < W + H) {
+          this.x = minX;
+          this.y = minY + (dist - W);
+        } else if (dist < 2 * W + H) {
+          this.x = minX + (dist - (W + H));
+          this.y = maxY;
+        } else {
+          this.x = maxX;
+          this.y = maxY - (dist - (2 * W + H));
+        }
+      }
+
+      let vx = this.x - prevX;
+      // Tilt based on horizontal velocity for realism
+      // Because dist calculation can cause a huge jump on wrap-around, we clamp vx
+      if (Math.abs(vx) > this.speed * 2) vx = 0;
+      
+      // Smooth angle interpolation
+      let targetAngle = vx * 0.05;
+      this.angle += (targetAngle - this.angle) * 0.1;
+    }
+
+    draw() {
+      ctx.save();
+      ctx.translate(this.x, this.y);
+      ctx.rotate(this.angle);
+
+      ctx.strokeStyle = '#ffffff';
+      ctx.lineWidth = 5;
+      ctx.lineCap = 'round';
+      ctx.beginPath();
+      ctx.moveTo(-25, -25);
+      ctx.lineTo(25, 25);
+      ctx.moveTo(25, -25);
+      ctx.lineTo(-25, 25);
+      ctx.stroke();
+
+      ctx.fillStyle = 'rgba(255, 255, 255, 0.7)';
+      ctx.strokeStyle = '#ffffff';
+      ctx.lineWidth = 2;
+      const drawRotor = (rx, ry) => {
+        ctx.save();
+        ctx.translate(rx, ry);
+        ctx.rotate(this.rotorAngle);
+        ctx.beginPath();
+        ctx.ellipse(0, 0, 18, 5, 0, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.stroke();
+        ctx.fillStyle = '#888';
+        ctx.beginPath();
+        ctx.arc(0, 0, 4, 0, Math.PI*2);
+        ctx.fill();
+        ctx.restore();
+      };
+
+      drawRotor(-25, -25);
+      drawRotor(25, -25);
+      drawRotor(25, 25);
+      drawRotor(-25, 25);
+
+      ctx.fillStyle = '#e0e0e0';
+      ctx.beginPath();
+      ctx.arc(0, 0, 15, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.strokeStyle = '#ffffff';
+      ctx.lineWidth = 2;
+      ctx.stroke();
+      
+      ctx.fillStyle = (Math.floor(Date.now() / 500) % 2 === 0) ? '#00ff44' : '#145c32';
+      ctx.beginPath();
+      ctx.arc(0, 5, 4, 0, Math.PI*2);
+      ctx.fill();
+
+      ctx.restore();
+    }
+  }
+
+  let leftArm = new RobotArm(0.15);  
+  let rightArm = new RobotArm(0.85); 
+  let drones = [];
+
+  setTimeout(() => {
+    // Left drone (restricted to left 35% of screen, Counterclockwise)
+    drones.push(new Drone(width * 0.35 - 20, 120, (w) => 20, (w) => w * 0.35, -1));
+    // Right drone (restricted to right 35% of screen, Clockwise)
+    drones.push(new Drone(width * 0.65 + 20, 120, (w) => w * 0.65, (w) => w - 20, 1));
+  }, 100);
+
+  function loop() {
+    ctx.clearRect(0, 0, width, height);
+    
+    ctx.globalAlpha = 0.85; 
+
+    updateGlobalCycle();
+    
+    for (let drone of drones) {
+      drone.update(width, height);
+      drone.draw();
+    }
+
+    leftArm.update(width, height);
+    leftArm.draw();
+    
+    rightArm.update(width, height);
+    rightArm.draw();
+    
+    requestAnimationFrame(loop);
+  }
+
+  requestAnimationFrame(loop);
+})();
+</script>
+{%- endmacro %}
+
+{%- macro particles_dom( style ) %}
+<canvas id="robot-arm-canvas" style="{{ style | default(value='') }}; pointer-events: none; opacity: 0.6;"></canvas>
+{%- endmacro %}
