@@ -80,7 +80,7 @@
   {%- endif %}
 
 {%- elif config.extra.default_thumbnail %}
-  {%- set default_thumb = resize_image(path=config.extra.default_thumbnail, width=630, height=630, op="fill", format="webp") %}
+  {%- set default_thumb = resize_image(path=config.extra.default_thumbnail, width=1200, height=630, op="fit", format="jpg") %}
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:image" content="{{ default_thumb.url | safe }}" />
   <meta property="og:image" content="{{ default_thumb.url | safe }}" />

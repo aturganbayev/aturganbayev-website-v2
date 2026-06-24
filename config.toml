@@ -48,7 +48,7 @@ theme = "github-dark"
 [extra]
 long_title = "Azamat Turganbayev"
 favicon = "/images/profile-sm.jpg"
-default_thumbnail = "/images/profile-sm.jpg"
+default_thumbnail = "/images/og-card.jpg"
 cv_en = "/files/ATurganbayev_CV.pdf"
 cv_ru = "/files/ATurganbayev_CV_ru.pdf"
 
