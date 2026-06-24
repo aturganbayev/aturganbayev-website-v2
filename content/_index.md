@@ -2,7 +2,7 @@
 [extra]
 profile_picture = "/images/profile-sm.jpg"
 name = "Azamat Turganbayev"
-subtitle = "Robotics Engineer"
+subtitle = "Robotics Engineer and Researcher"
 about_me = """
 I'm a robotics engineer with research interests in robot manipulation, perception, and human-centered robotics. I'm currently pursuing an MS in Robotics at the University of Minnesota.  
 You can see my education and experience in the timeline below, along with my publications and talks.
