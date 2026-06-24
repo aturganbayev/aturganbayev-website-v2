@@ -275,12 +275,17 @@
   .back {
     display: inline-block;
     margin-bottom: 24px;
+    padding: 8px 18px;
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    border-radius: 4px;
     color: inherit;
-    opacity: 0.8;
-    font-size: 0.85rem;
+    opacity: 0.9;
+    font-size: 1.05rem;
+    transition: background-color 200ms ease, opacity 200ms ease;
 
     &:hover {
       opacity: 1;
+      background: rgba(255, 255, 255, 0.15);
     }
   }
 
@@ -321,7 +326,7 @@
 .project-content {
   max-width: 760px;
   margin: 0 auto;
-  text-align: left;
+  text-align: justify;
 
   iframe {
     max-width: 100%;
