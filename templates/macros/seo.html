@@ -80,7 +80,12 @@
   {%- endif %}
 
 {%- elif config.extra.default_thumbnail %}
-  {%- set default_thumb = resize_image(path=config.extra.default_thumbnail, width=1200, height=630, op="fit", format="jpg") %}
+  {%- if lang == "ru" and config.extra.default_thumbnail_ru %}
+    {%- set thumb_path = config.extra.default_thumbnail_ru %}
+  {%- else %}
+    {%- set thumb_path = config.extra.default_thumbnail %}
+  {%- endif %}
+  {%- set default_thumb = resize_image(path=thumb_path, width=1200, height=630, op="fit", format="jpg") %}
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:image" content="{{ default_thumb.url | safe }}" />
   <meta property="og:image" content="{{ default_thumb.url | safe }}" />

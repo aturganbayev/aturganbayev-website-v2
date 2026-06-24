@@ -3,7 +3,7 @@ base_url = "https://azamatturganbayev.com/"
 
 # The site title and description; used in feeds by default.
 title = "Azamat Turganbayev"
-description = "MS in Robotics student, University of Minnesota"
+description = "Robotics Engineer pursuing an MS in Robotics at the University of Minnesota, Twin Cities, working on robot manipulation, perception, and human-centered robotics."
 
 # The default language; used in feeds.
 default_language = "en"
@@ -49,6 +49,7 @@ theme = "github-dark"
 long_title = "Azamat Turganbayev"
 favicon = "/images/profile-sm.jpg"
 default_thumbnail = "/images/og-card.jpg"
+default_thumbnail_ru = "/images/og-card-ru.jpg"
 cv_en = "/files/ATurganbayev_CV.pdf"
 cv_ru = "/files/ATurganbayev_CV_ru.pdf"
 
@@ -99,5 +100,5 @@ path = "/"
 
 [languages.ru]
 title = "Азамат Турганбаев"
-description = "Студент магистратуры по робототехнике, Университет Миннесоты"
+description = "Инженер-робототехник, магистрант по робототехнике в Университете Миннесоты, Твин-Ситис; работает в области робототехнической манипуляции, восприятия и робототехники, ориентированной на человека."
 

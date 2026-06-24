@@ -32,6 +32,10 @@
     </div>
     {% endfor %}
   </div>
+  <a class="button cv-button" href="{% if lang == 'ru' %}{{ get_url(path=config.extra.cv_ru) }}{% else %}{{ get_url(path=config.extra.cv_en) }}{% endif %}" target="_blank" rel="noopener">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M12 16l-5-5h3V4h4v7h3l-5 5zm-7 2h14v2H5v-2z"/></svg>
+    {% if lang == "ru" %}Посмотреть моё резюме{% else %}View my CV{% endif %}
+  </a>
 </div>
 
 {# about me #}
@@ -154,4 +158,45 @@
 {% block scripts %}
 {{ super() }}
 {{- macros_particles::particles_script() }}
+<script>
+(function () {
+  function fitSize(el, base, min) {
+    var size = base;
+    el.style.fontSize = size + "px";
+    while (el.scrollWidth > el.clientWidth && size > min) {
+      size = Math.max(min, size - 1);
+      el.style.fontSize = size + "px";
+    }
+    return size;
+  }
+  function fitAll() {
+    var min = 18;
+    var titles = document.querySelectorAll(".top-projects h4");
+    if (!titles.length) return;
+    var smallest = null;
+    titles.forEach(function (el) {
+      if (!el.dataset.baseFontSize) {
+        el.dataset.baseFontSize = getComputedStyle(el).fontSize;
+      }
+      var base = parseFloat(el.dataset.baseFontSize);
+      var fitted = fitSize(el, base, min);
+      if (smallest === null || fitted < smallest) {
+        smallest = fitted;
+      }
+    });
+    titles.forEach(function (el) {
+      el.style.fontSize = smallest + "px";
+    });
+  }
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", fitAll);
+  } else {
+    fitAll();
+  }
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(fitAll);
+  }
+  window.addEventListener("resize", fitAll);
+})();
+</script>
 {% endblock scripts %}
