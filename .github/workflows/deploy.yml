@@ -1,4 +1,4 @@
-name: Deploy Zola site to Pages
+name: Deploy redirect-only page to Pages (old domain)
 
 on:
   workflow_dispatch:
@@ -18,25 +18,14 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-        with:
-          submodules: recursive
-
-      - name: Install Zola
-        uses: taiki-e/install-action@v2
-        with:
-          tool: zola@0.19.1
 
       - name: Setup Pages
-        id: pages
         uses: actions/configure-pages@v5
-
-      - name: Build
-        run: zola build --base-url "${{ steps.pages.outputs.base_url }}/"
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: ./public
+          path: ./redirect
 
   deploy:
     environment:
