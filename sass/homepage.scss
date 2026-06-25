@@ -130,6 +130,42 @@
   font-size: 1.5rem;
 }
 
+.skills-list {
+  max-width: 760px;
+  margin: 0 auto;
+  padding-bottom: 1rem;
+}
+
+.skill-group {
+  margin: 0 0 18px;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+
+  > strong {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 500;
+  }
+}
+
+.skill-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.skill-tag {
+  display: inline-block;
+  padding: 4px 13px;
+  font-size: 0.85rem;
+  line-height: 1.5;
+  background: rgba(0, 0, 0, 0.05);
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  border-radius: 20px;
+}
+
 .card {
   width: 100%;
   display: flex;

@@ -46,6 +46,26 @@
   </div>
 </div>
 
+{# skills #}
+
+<div class="section" id="skills">
+  <div class="container">
+    <h3>{% if lang == "ru" %}Навыки{% else %}Skills{% endif %}</h3>
+    <div class="skills-list">
+      {% for group in page_data.skills %}
+        <div class="skill-group">
+          <strong>{{ group.group }}</strong>
+          <div class="skill-tags">
+            {% for item in group.items %}
+              <span class="skill-tag">{{ item }}</span>
+            {% endfor %}
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
 {# portfolio #}
 
 <div class="section-title" id="portfolio">

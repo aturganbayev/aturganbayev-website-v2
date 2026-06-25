@@ -7,6 +7,27 @@ about_me = """
 I'm a robotics engineer with research interests in robot manipulation, perception, and human-centered robotics. I'm currently pursuing an MS in Robotics at the University of Minnesota.  
 You can see my education and experience in the timeline below, along with my publications and talks.
 """
+
+##########
+# SKILLS #
+##########
+
+[[extra.skills]]
+group = "Programming Languages & Libraries"
+items = ["Python", "C/C++", "MATLAB", "OpenCV"]
+
+[[extra.skills]]
+group = "Robotics Frameworks & Tools"
+items = ["ROS / ROS2", "UR5", "URScript", "RoboDK", "Gazebo", "Linux", "Git", "Docker"]
+
+[[extra.skills]]
+group = "Modeling & Simulation"
+items = ["SolidWorks", "MATLAB/Simulink", "QUARC", "3D printing"]
+
+[[extra.skills]]
+group = "Control Systems"
+items = ["PID control optimization", "Real-time systems", "Motion planning"]
+
 ################
 # TOP PROJECTS #
 ################
