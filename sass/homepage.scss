@@ -13,7 +13,7 @@
   align-items: center;
   flex-direction: column;
   text-align: center;
-  padding-bottom: 20vh;
+  padding: 0 1rem 20vh;
   box-sizing: border-box;
 
   // Dims the animated robot arms/drones directly behind the hero text so
@@ -39,19 +39,22 @@
     font-family: "Nunito", "Roboto", "Helvetica", "Arial", sans-serif;
     font-size: clamp(2.5rem, 8vw, 4rem);
     font-weight: 300;
-    margin-top: 30px;
-    margin-bottom: 10px;
+    max-width: 90%;
+    margin-top: 20px;
+    margin-bottom: 4px;
     text-shadow: 0 2px 16px rgba(0, 0, 0, 0.75);
   }
 
   h2 {
     font-size: clamp(1.2rem, 4vw, 1.5rem);
     font-weight: 400;
+    margin-top: 0;
+    margin-bottom: 0;
     text-shadow: 0 2px 12px rgba(0, 0, 0, 0.75);
   }
 
   .socials {
-    margin-top: 32px;
+    margin-top: 24px;
     display: flex;
     justify-content: center;
     gap: 16px;
@@ -67,7 +70,7 @@
   }
 
   .cv-button {
-    margin-top: 28px;
+    margin-top: 20px;
     display: inline-flex;
     align-items: center;
     gap: 8px;
@@ -126,8 +129,17 @@
 
 #about-me {
   font-weight: 300;
-  padding: 1rem 0;
+  padding: 1.5rem 0;
   font-size: 1.5rem;
+
+  p {
+    margin-top: 0;
+    margin-bottom: 0;
+
+    & + p {
+      margin-top: 0.65em;
+    }
+  }
 }
 
 .skills-list {
