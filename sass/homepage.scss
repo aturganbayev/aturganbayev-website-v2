@@ -43,7 +43,7 @@
 
   h1 {
     font-family: "Nunito", "Roboto", "Helvetica", "Arial", sans-serif;
-    font-size: clamp(2.5rem, 8vw, 4rem);
+    font-size: clamp(1.5rem, 8vw, 4rem);
     font-weight: 300;
     margin-top: 0;
     margin-bottom: 4px;
@@ -111,8 +111,10 @@
     margin-top: 20px;
     display: inline-flex;
     align-items: center;
+    justify-content: center;
     gap: 8px;
     padding: 10px 22px;
+    min-width: 140px;
     background: rgba(255, 255, 255, 0.08);
     border: 1px solid rgba(255, 255, 255, 0.3);
     backdrop-filter: blur(6px);

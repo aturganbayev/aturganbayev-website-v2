@@ -36,7 +36,7 @@
   </div>
   <a class="button cv-button" href="{% if lang == 'ru' %}{{ get_url(path=config.extra.cv_ru) }}{% else %}{{ get_url(path=config.extra.cv_en) }}{% endif %}" target="_blank" rel="noopener">
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M12 16l-5-5h3V4h4v7h3l-5 5zm-7 2h14v2H5v-2z"/></svg>
-    {% if lang == "ru" %}Посмотреть моё резюме{% else %}View my CV{% endif %}
+    {% if lang == "ru" %}Резюме{% else %}CV{% endif %}
   </a>
 </div>
 
