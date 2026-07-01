@@ -20,8 +20,10 @@
   {{- macros_particles::particles_dom(style="position: absolute; inset: 0; z-index: -2;") }}
   {% set profile_picture = resize_image(path=page_data.profile_picture, width=150, height=150, op="fill", format="webp") %}
   <img class="profile-picture" src="{{ profile_picture.url }}" alt="Profile image of {{ page_data.name }}" />
-  <h1>{{ page_data.name }}</h1>
-  <h2>{{ page_data.subtitle }}</h2>
+  <div class="hero-name">
+    <h1>{{ page_data.name }}</h1>
+    <h2>{{ page_data.subtitle }}</h2>
+  </div>
   <div class="socials">
     {% for social in config.extra.socials %}
     <div class="has-tooltip">

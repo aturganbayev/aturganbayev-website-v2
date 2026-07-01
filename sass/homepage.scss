@@ -35,12 +35,17 @@
     box-shadow: 0 2px 18px rgba(0, 0, 0, 0.6);
   }
 
+  .hero-name {
+    width: fit-content;
+    max-width: 90%;
+    margin-top: 20px;
+  }
+
   h1 {
     font-family: "Nunito", "Roboto", "Helvetica", "Arial", sans-serif;
     font-size: clamp(2.5rem, 8vw, 4rem);
     font-weight: 300;
-    max-width: 90%;
-    margin-top: 20px;
+    margin-top: 0;
     margin-bottom: 4px;
     text-shadow: 0 2px 16px rgba(0, 0, 0, 0.75);
   }
@@ -64,8 +69,41 @@
 
     svg {
       width: 24px;
+      height: 24px;
       fill: #fff;
       filter: drop-shadow(0 1px 6px rgba(0, 0, 0, 0.75));
+    }
+  }
+
+  @media (max-width: 480px) {
+    .profile-picture {
+      width: 90px;
+      height: 90px;
+      border-radius: 90px;
+    }
+
+    .hero-name {
+      width: 90%;
+      max-width: none;
+    }
+
+    h2 {
+      font-size: 1rem;
+      max-width: 53%;
+      margin-left: auto;
+      margin-right: auto;
+      hyphens: none;
+    }
+
+    .socials {
+      gap: 12px;
+      margin-top: 18px;
+    }
+
+    .cv-button {
+      margin-top: 14px;
+      font-size: 0.85rem;
+      padding: 8px 16px;
     }
   }
 
@@ -438,4 +476,10 @@
 .exo-lightbox-close {
   position: absolute; top: 12px; right: 22px; color: #fff;
   font-size: 40px; line-height: 1; cursor: pointer;
+}
+
+@media (max-width: 480px) {
+  :lang(ru) .splash h2 {
+    max-width: 70%;
+  }
 }
